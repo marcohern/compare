@@ -28,11 +28,46 @@ CREATE TABLE campaign_stats(
 
 CREATE INDEX ix_campaign_stats_campaign_id ON campaign_stats(campaign_id);
 
+DROP TABLE IF EXISTS ids;
+
+CREATE TABLE ids (
+	id    INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	code  VARCHAR(16) NOT NULL UNIQUE,
+	value INT NOT NULL DEFAULT 1,
+	created DATETIME NOT NULL,
+	updated DATETIME NULL 
+);
+
+
+DROP TABLE IF EXISTS prd_exito;
+
+CREATE TABLE prd_exito (
+	_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	_processId INT NOT NULL,
+	_counter   INT NOT NULL DEFAULT 1,
+	_created   DATETIME NOT NULL,
+	_updated   DATETIME     NULL,
+	url1 VARCHAR(255) NOT NULL,
+	title1 VARCHAR(128) NOT NULL,
+	image1 VARCHAR(255) NOT NULL,
+	image1_alt VARCHAR(128) NOT NULL,
+	brand1 VARCHAR(64) NOT NULL,
+	signature CHAR(32) NOT NULL UNIQUE,
+	price1 DECIMAL(18,2) NOT NULL DEFAULT 0.0,
+	price2 DECIMAL(18,2) NOT NULL DEFAULT 0.0
+);
+
+CREATE INDEX ix_prd_exito_processId ON prd_exito(_processId);
+
+
 DROP TABLE IF EXISTS prd_falabella;
 
 CREATE TABLE prd_falabella(
 	_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	_processId INT NOT NULL,
+	_counter   INT NOT NULL DEFAULT 1,
+	_created   DATETIME NOT NULL,
+	_updated   DATETIME     NULL,
 	productId VARCHAR(32) NOT NULL,
 	url VARCHAR(255) NOT NULL,
 	brand VARCHAR(64) NULL,
@@ -42,7 +77,7 @@ CREATE TABLE prd_falabella(
 	title VARCHAR(128) NOT NULL,
 	name VARCHAR(128) NOT NULL,
 	code VARCHAR(128) NOT NULL,
-	signature CHAR(32) NOT NULL,
+	signature CHAR(32) NOT NULL UNIQUE,
 	price DECIMAL(18,2) NOT NULL DEFAULT 0.0
 );
 
@@ -52,15 +87,19 @@ CREATE INDEX ix_prd_falabella_processId ON prd_falabella(_processId);
 DROP TABLE IF EXISTS prd_ktronix;
 
 CREATE TABLE prd_ktronix(
-	_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	_id        INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	_processId INT NOT NULL,
+	_counter   INT NOT NULL DEFAULT 1,
+	_created   DATETIME NOT NULL,
+	_updated   DATETIME     NULL,
 	id VARCHAR(32) NOT NULL,
 	title VARCHAR(128) NOT NULL,
 	name VARCHAR(128) NOT NULL,
 	code VARCHAR(128) NOT NULL,
-	signature VARCHAR(32) NOT NULL,
+	signature VARCHAR(32) NOT NULL UNIQUE,
 	brand VARCHAR(128) NOT NULL,
-	category VARCHAR(128) NOT NULL
+	category VARCHAR(128) NOT NULL,
+	price DECIMAL(18,2) NOT NULL DEFAULT 0.0
 );
 
 
@@ -82,6 +121,11 @@ CREATE TABLE stores (
 INSERT INTO campaigns(id, store_id, name, code, executor, created, updated) VALUES
 (1, 1, 'K-Tronix Videojuegos PS4', 'KTRONIX-PS4-GAMES', 'KtronixVgPs4Executor', NOW(), NULL),
 (2, 4, 'Falabella Videojuegos PS4', 'FALABELLA-PS4-GAMES', 'FalabellaVgPs4Executor', NOW(), NULL);
+
+
+
+INSERT INTO ids(id, code, created) VALUES
+(1, 'import-process', NOW());
 
 
 INSERT INTO stores(id, code, name, country, url, created) VALUES

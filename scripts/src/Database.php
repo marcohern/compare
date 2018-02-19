@@ -29,7 +29,8 @@ class Database {
 	}
 
 	public function insert($table, &$record) {
-		$sql = $this->getInsertStmt($table, [$record]);
+		$data = [$record];
+		$sql = $this->getInsertStmt($table, $data);
 		$r = $this->mysqli->query($sql);
 		if (!$r) {
 			die("Error INSERT: ".$this->mysqli->error);
@@ -57,7 +58,21 @@ class Database {
 		$r = $this->mysqli->query($sql);
 		if (!$r) {
 			die("Error UPDATE MULTIPLE: ".$this->mysqli->error);
-		}	
+		}
+	}
+
+	public function selectSingle($table, $filters) {
+		$sql = $this->getSimpleSelectStmt($table, $filters);
+		$r = $this->mysqli->query($sql);
+		if (!$r) {
+			die("Error SELECT SINGLE: ".$this->mysqli->error);
+		}
+		else
+		{
+			$result = $r->fetch_assoc();
+			$r->close();
+			return $result;
+		}
 	}
 
 	public function getInsertStmt($table, &$data) {
@@ -86,7 +101,7 @@ class Database {
 		return $sql;
 	}
 
-	public function getUpateStmt($table, &$record, &$filters) {
+	public function getUpateStmt($table, &$record, $filters) {
 		$sql = "UPDATE `$table` ";
 		$fld=0;
 		foreach ($record as $k => $v) {
@@ -104,7 +119,7 @@ class Database {
 	}
 
 	public function getSimpleSelectStmt($table, &$filters) {
-		$sql = 'SELECT * FROM `$table` ';
+		$sql = "SELECT * FROM `$table` ";
 		if (count($filters)>0) {
 			$sql .= 'WHERE ';
 			$fld=0;
@@ -121,7 +136,7 @@ class Database {
 		if (is_null($value)) {
 			return "NULL";
 		}
-		return "'".addslashes($v)."'";
+		return "'".addslashes($value)."'";
 	}
 }
 ?>

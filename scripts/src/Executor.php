@@ -25,6 +25,8 @@ abstract class Executor {
 		$this->init();
 	}
 
+	public function getItems() { return $this->table; }
+
 	abstract protected function init();
 	
 	public function run() {
