@@ -39,6 +39,28 @@ CREATE TABLE ids (
 );
 
 
+DROP TABLE IF EXISTS prd_alkosto;
+
+CREATE TABLE prd_alkosto(
+	_id        INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	_processId INT NOT NULL,
+	_counter   INT NOT NULL DEFAULT 1,
+	_created   DATETIME NOT NULL,
+	_updated   DATETIME     NULL,
+	id VARCHAR(32) NOT NULL,
+	title VARCHAR(128) NOT NULL,
+	name VARCHAR(128) NOT NULL,
+	code VARCHAR(128) NOT NULL,
+	signature VARCHAR(32) NOT NULL UNIQUE,
+	brand VARCHAR(128) NOT NULL,
+	category VARCHAR(128) NOT NULL,
+	price DECIMAL(18,2) NOT NULL DEFAULT 0.0
+);
+
+
+CREATE INDEX ix_prd_alkosto_processId ON prd_alkosto(_processId);
+
+
 DROP TABLE IF EXISTS prd_exito;
 
 CREATE TABLE prd_exito (
@@ -49,6 +71,7 @@ CREATE TABLE prd_exito (
 	_updated   DATETIME     NULL,
 	url1 VARCHAR(255) NOT NULL,
 	title1 VARCHAR(128) NOT NULL,
+	title  VARCHAR(128) NOT NULL,
 	image1 VARCHAR(255) NOT NULL,
 	image1_alt VARCHAR(128) NOT NULL,
 	brand1 VARCHAR(64) NOT NULL,

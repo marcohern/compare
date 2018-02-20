@@ -20,13 +20,14 @@ class StandardColumnContainer extends ColumnContainer {
 		return $c;
 	}
 
-	public function addName($name, array $remove = []) {
+	public function addName($name, array $remove = [], array $replace = []) {
 		$c = new Column($name);
 		$c->setNormalize(true);
 		$c->setToMd5('signature');
 		$c->setCopyPreNormalize('title');
 		$c->setEscape(false);
 		$c->setRemove($remove);
+		$c->setReplace($replace);
 		$this->add($c);
 		return $c;
 	}

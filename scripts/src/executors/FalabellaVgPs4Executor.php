@@ -8,6 +8,7 @@ require_once("src/jsonexplorers/FalabelaBrowserProductJsonExplorer.php");
 
 class FalabellaVgPs4Executor extends Executor {
 	protected function init() {
+ 		$this->logger->log("init", "FalabellaVgPs4Executor");
 		$this->url = 'https://www.falabella.com.co/falabella-co/category/cat3020960/PS4';
 		$this->urltpl = 'https://www.falabella.com.co/rest/model/falabella/rest/browse/BrowseActor/get-product-record-list?[json]';
 		$this->itemsExp = '/'

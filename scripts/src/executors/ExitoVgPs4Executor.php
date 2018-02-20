@@ -8,6 +8,7 @@ require_once("src/jsonexplorers/FalabelaBrowserProductJsonExplorer.php");
 
 class ExitoVgPs4Executor extends Executor {
 	protected function init() {
+ 		$this->logger->log("init", "ExitoVgPs4Executor");
 		$this->url = 'https://www.exito.com/Tecnologia-Consolas_y_video_juegos-PlayStation_4-Juegos_PS4/_/N-2b5q';
 		$this->urltpl = $this->url."?No=[offset]&Nrpp=[rpp]";
 

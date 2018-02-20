@@ -29,6 +29,14 @@ class Crawler {
 		$this->p = 0;
 		$this->logger = $logger;
 	}
+	protected function updatePageState() {
+		if ($this->rpp) {
+			$this->offset += $this->rpp;
+		}
+		$this->p++;
+		if ($this->p >= $this->pages) return false;
+		return true;
+	}
 
 	protected function getPagingInfo(&$content) {
 		if (!is_null($this->pagerExp)) {
@@ -62,6 +70,7 @@ class Crawler {
 	}
 
 	public function crawlFirst($url, &$table) {
+ 		$this->logger->log($url, "Crawler");
 		$this->logger->entryStart("Reading page ".$this->p,"Crawler");
 		$content = mb_convert_encoding(file_get_contents($url),'UTF-8');
 		$this->logger->entryEnd();
@@ -70,17 +79,17 @@ class Crawler {
 	}
 
 	public function crawlNext($urltpl, &$table) {
-		if ($this->rpp) {
-			$this->offset += $this->rpp;
-		}
-		$this->p++;
-		if ($this->p >= $this->pages) return false;
-		$url = $this->getUrl($urltpl);
 
-		$this->logger->entryStart("Reading page ".$this->p,"Crawler");
-		$content = mb_convert_encoding(file_get_contents($url),'UTF-8');
-		$this->logger->entryEnd();
-		return $this->getItems($content, $table);
+		if ($this->updatePageState()) {
+			$url = $this->getUrl($urltpl);
+	 		$this->logger->log($url, "Crawler");
+
+			$this->logger->entryStart("Reading page ".$this->p,"Crawler");
+			$content = mb_convert_encoding(file_get_contents($url),'UTF-8');
+			$this->logger->entryEnd();
+			return $this->getItems($content, $table);
+		}
+		return false;
 	}
 
 	public function crawl($url, $urltpl, &$table) {

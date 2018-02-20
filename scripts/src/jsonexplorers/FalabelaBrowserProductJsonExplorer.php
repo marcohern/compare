@@ -3,10 +3,36 @@
 include_once("src/JsonExplorer.php");
 
 class FalabelaBrowserProductJsonExplorer extends JsonExplorer {
+
+	private static $replaceName = [
+		'/[áä]/ui' => "a",
+		'/[éë]/ui' => "e",
+		'/[íï]/ui' => "i",
+		'/[óö]/ui' => "o",
+		'/[úü]/ui' => "u",
+		'/Until Down/i'                    => "Until Dawn",
+		'/W2K18/i'                         => "WWE 2K18",
+		'/Blackops/i'                      => "Black Ops",
+		'/Fighterz/i'                      => "Fighter Z",
+		'/Eve:Valkyrie/i'                  => "Eve: Valkyrie",
+		'/\s*Rem\W*$/i'                    => " Remastered",
+		'/\s*Remasterizado$/i'             => " Remastered",
+		'/\s*Shippu Ultimate Ninja St 4/i' => " Shipudden Ultimate Ninja Storm 4",
+		'/Nfs 2018 Mx Rola/i'              => "Need for Speed Payback",
+		'/\s*Spa\W*/i'                     => " Spanish",
+		'/X-X2/i'                          => "X/X2",
+		'/Scholar 1 Sin/i'                 => "Scholar of the First Sin",
+		'/Origins D\W*/i'                  => "Origins Deluxe Edition",
+		'/Naruto Ninja Storm LG/i'         => "Naruto Shippuden Ultimate Ninja Storm Legacy Game",
+		'/\(Edicion Ronaldo\)/i'           => "Ronaldo Edition"
+	];
 	
 	private static $removeName = [
-		'/\s*Videojuego /',
-		'/\s*Videjuego /'
+		'/\s*Videojuego /i',
+		'/\s*Videjuego /i',
+		'/\s*para Playstation 4/i',
+		'/\s*-\s*Latam/i',
+		'/Edicion \w*$/i',
 	];
 
 	protected $navState;
@@ -38,7 +64,8 @@ class FalabelaBrowserProductJsonExplorer extends JsonExplorer {
 			}
 			$price = "" . ((0 + $price)*1000);
 
-			$name = Stringer::remove($item->title, self::$removeName);
+			$name = Stringer::replace($item->title, self::$replaceName);
+			$name = Stringer::remove($name, self::$removeName);
 			$code = Stringer::normalize($name);
 			$signature = md5($code);
 			$record = [

@@ -15,5 +15,12 @@ class Stringer {
 		}
 		return $value;
 	}
+
+	public static function replace($value, array $replace) {
+		foreach($replace as $from => $to) {
+			$value = preg_replace($from, $to, $value);
+		}
+		return $value;
+	}
 }
 ?>

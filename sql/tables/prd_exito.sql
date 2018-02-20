@@ -9,6 +9,7 @@ CREATE TABLE prd_exito (
 	_updated   DATETIME     NULL,
 	url1 VARCHAR(255) NOT NULL,
 	title1 VARCHAR(128) NOT NULL,
+	title  VARCHAR(128) NOT NULL,
 	image1 VARCHAR(255) NOT NULL,
 	image1_alt VARCHAR(128) NOT NULL,
 	brand1 VARCHAR(64) NOT NULL,

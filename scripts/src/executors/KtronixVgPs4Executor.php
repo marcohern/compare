@@ -6,6 +6,7 @@ require_once("src/StandardColumnContainer.php");
 class KtronixVgPs4Executor extends Executor {
 
  	protected function init() {
+ 		$this->logger->log("init", "KtronixVgPs4Executor");
  		$this->url = "http://www.ktronix.com/videojuegos/play-station-ps3-ps4-psvita-move/videojuegos-playstation/juegos-playstation-4";
  		$this->urltpl = $this->url."?p=[p1]";
 

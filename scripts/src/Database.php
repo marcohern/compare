@@ -22,6 +22,10 @@ class Database {
 		if ($this->mysqli->connect_error) {
 			die('Connect Error (' . $this->mysqli->connect_errno . ') ' . $this->mysqli->connect_error);
 		}
+
+		if (!$this->mysqli->set_charset("utf8")) {
+			die("Unable to set charset utf8: ".$this->mysqli->error);
+		}
 	}
 
 	public function close() {

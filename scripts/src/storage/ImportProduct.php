@@ -28,6 +28,7 @@ class ImportProduct {
 			$signature = $row['signature'];
 
 			$record = $this->db->selectSingle($table, ['signature' => $signature]);
+			$row['_processId'] = $this->_processId;
 			if ($record) {
 				//update]
 				$row['_counter']= $record['_counter']+1;
@@ -35,7 +36,6 @@ class ImportProduct {
 				$this->db->update($table, 'signature', $signature, $row);
 			} else {
 				//create
-				$row['_processId'] = $this->_processId;
 				$row['_created'] = date("Y-m-d H:i:s");
 				$row['_counter'] = 1;
 				$row['_updated'] = null;
