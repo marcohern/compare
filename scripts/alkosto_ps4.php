@@ -14,6 +14,6 @@ $executor = new AlkostoVgPs4Executor();
 $executor->run();
 $data = $executor->getItems();
 
-$p->save('prd_alkosto', $data);
+$p->save('prd_alkosto', $data, 'PS4-GAMES');
 
 ?>

@@ -69,7 +69,7 @@ class Database {
 		$sql = $this->getSimpleSelectStmt($table, $filters);
 		$r = $this->mysqli->query($sql);
 		if (!$r) {
-			die("Error SELECT SINGLE: ".$this->mysqli->error);
+			die("Error SELECT SINGLE: ".$this->mysqli->error." $sql");
 		}
 		else
 		{
@@ -128,7 +128,7 @@ class Database {
 			$sql .= 'WHERE ';
 			$fld=0;
 			foreach($filters as $k => $v) {
-				$sql .= (($fld==0) ? '' : ',')."`$k`=".$this->getLiteral($v);
+				$sql .= (($fld==0) ? '' : ' AND ')."`$k`=".$this->getLiteral($v);
 				$fld++;
 			}	
 		}

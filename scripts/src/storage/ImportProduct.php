@@ -23,22 +23,28 @@ class ImportProduct {
 		return $this->_processId;
 	}
 
-	public function save($table, &$data) {
+	public function save($table, &$data, $cat = '*') {
 		foreach($data as $row) {
-			$signature = $row['signature'];
+			$signature = $row['_signature'];
+			$category  = $cat;
 
-			$record = $this->db->selectSingle($table, ['signature' => $signature]);
+			$record = $this->db->selectSingle($table, [
+				'_category' => $category,
+				'_signature' => $signature
+			]);
 			$row['_processId'] = $this->_processId;
 			if ($record) {
-				//update]
-				$row['_counter']= $record['_counter']+1;
+				//update
+				$id = $record['_id'];
+				$row['_counter'] = $record['_counter']+1;
 				$row['_updated'] = date("Y-m-d H:i:s");
-				$this->db->update($table, 'signature', $signature, $row);
+				$this->db->update($table, '_id', $id, $row);
 			} else {
 				//create
 				$row['_created'] = date("Y-m-d H:i:s");
 				$row['_counter'] = 1;
 				$row['_updated'] = null;
+				$row['_category'] = $cat;
 				$this->db->insert($table, $row);
 			}
 			

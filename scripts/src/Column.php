@@ -67,11 +67,11 @@ class Column {
 		if ($this->escape) {
 			$value = stripcslashes($value);
 		}
-		if ($this->replace) {
-			$value = Stringer::replace($value, $this->replace);
-		}
 		if ($this->copyPreRemove) {
 			$record[$this->copyPreRemove] = $value;
+		}
+		if ($this->replace) {
+			$value = Stringer::replace($value, $this->replace);
 		}
 		if ($this->remove) {
 			$value = Stringer::remove($value, $this->remove);

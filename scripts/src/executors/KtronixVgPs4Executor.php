@@ -13,18 +13,24 @@ class KtronixVgPs4Executor extends Executor {
  		$this->columns = new StandardColumnContainer();
 		$this->columns->addSimple('id');
 		$this->columns->addName('code',[
-			'/^\s*Videojuego (PS[43] |XBOX ONE (X )?)?/i',
-			'/Edition PS[43]$/',
-			'/ XBOX ONE/',
+			'/^\s*Videojuego (PS4 )?/i',
+			'/Edition PS4$/',
+			'/PS4$/',
 			'/â/',
 			'/ Estandard/i',
-			'/ Estandar/i'
+			'/ Estandar/i',
 		],[
-			'/WW II/i' => "WWII"
+			'/WW II/i' => "WWII",
+			'/Edicion Legado/i' => "Legacy Edition",
+			'/Ratchet y Clank/i' => "Ratchet & Clank",
+			'/\W+Remasterizado/i' => " Remastered",
+			'/thief.s/i' => "Thief's",
+			'/Tortugas Ninja in/i' => "Teenage Mutant Ninja Turtles: Mutants in"
 		], ' ps4');
 		$this->columns->addSimple('price');
 		$this->columns->addSimple('brand');
 		$this->columns->addEscape('category');
+		$this->columns->addEscape('url');
 		
 		$this->pagerExp = '/'
 			.'Productos: 1-(?<rpp>\d{1,4}) de (?<total>\d{1,4})'

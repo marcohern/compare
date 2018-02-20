@@ -13,17 +13,22 @@ class FalabelaBrowserProductJsonExplorer extends JsonExplorer {
 		'/Until Down/i'                    => "Until Dawn",
 		'/W2K18/i'                         => "WWE 2K18",
 		'/FIFA17/i'                        => "FIFA 17",
+		'/FIFA 18 Deluxe/i'                => "FIFA 18",
+		'/PES/'                            => "Pro Evolution Soccer",
 		'/Blackops/i'                      => "Black Ops",
 		'/Fighterz/i'                      => "Fighter Z",
+		'/MGSV/i'                          => "Metal Gear Solid V",
+		'/Definitive Exp$/i'               => "The Definitive Experience", 
 		'/Eve:Valkyrie/i'                  => "Eve: Valkyrie",
+		'/Devil¿s/i'                       => "Devil's",
 		'/\s*Rem\W*$/i'                    => " Remastered",
 		'/\s*Remasterizado$/i'             => " Remastered",
 		'/\s*Shippu Ultimate Ninja St 4/i' => " Shipudden Ultimate Ninja Storm 4",
 		'/Nfs 2018 Mx Rola/i'              => "Need for Speed Payback",
-		'/\s*Spa\W*/i'                     => " Spanish",
+		'/\s*Spa$/i'                       => " Spanish",
 		'/X-X2/i'                          => "X/X2",
 		'/Scholar 1 Sin/i'                 => "Scholar of the First Sin",
-		'/Origins D\W*/i'                  => "Origins Deluxe Edition",
+		'/Origins D$/i'                    => "Origins Deluxe Edition",
 		'/Naruto Ninja Storm LG/i'         => "Naruto Shippuden Ultimate Ninja Storm Legacy Game",
 		'/\(Edicion Ronaldo\)/i'           => "Ronaldo Edition"
 	];
@@ -38,6 +43,7 @@ class FalabelaBrowserProductJsonExplorer extends JsonExplorer {
 
 	protected $navState;
 	private $append;
+	private $columns;
 
 	public function setAppend($append) { $this->append = $append; }
 
@@ -58,6 +64,16 @@ class FalabelaBrowserProductJsonExplorer extends JsonExplorer {
 		$this->pages = $r->pagesTotal;
 		$this->navState = $r->selectedRefinements->clearAllUrl;
 
+		$this->columns = new StandardColumnContainer();
+		$this->columns->addSimple('productId');
+		$this->columns->addName('code', self::$removeName, self::$replaceName, ' ps4');
+		$this->columns->addSimple('url');
+		$this->columns->addSimple('brand');
+		$this->columns->addSimple('backendCategory');
+		$this->columns->addSimple('skuId');
+		$this->columns->addSimple('mediaAssetId');
+		$this->columns->addSimple('price');
+
 		foreach($r->resultList as $item) {
 
 			$price = PHP_INT_MAX;
@@ -68,23 +84,17 @@ class FalabelaBrowserProductJsonExplorer extends JsonExplorer {
 			}
 			$price = "" . ((0 + $price)*1000);
 
-			$name = Stringer::replace($item->title, self::$replaceName);
-			$name = Stringer::remove($name, self::$removeName);
-			$code = Stringer::normalize($name).$this->append;
-			$signature = md5($code);
 			$record = [
 				'productId' => $item->productId,
-				'url' => $item->url,
-				'brand' => isset($item->brand) ? $item->brand : '',
+				'code'      => $item->title,
+				'url'       => $item->url,
+				'brand'     => isset($item->brand) ? $item->brand : '',
 				'backendCategory' => $item->backendCategory,
-				'skuId' => $item->skuId,
+				'skuId'        => $item->skuId,
 				'mediaAssetId' => $item->mediaAssetId,
-				'title' => $item->title,
-				'name' => $name,
-				'code' => $code,
-				'signature' => $signature,
-				'price' => $price
+				'price'        => $price
 			];
+			$this->columns->processValues($record);
 			$table[] = $record;
 		}
 		return true;

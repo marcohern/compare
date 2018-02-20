@@ -31,5 +31,11 @@ class ColumnContainer {
 		}
 		return $table;
 	}
+
+	public function processValues(&$record) {
+		foreach ($this->columns as $k => $c) {
+			$c->processValue($record, $record[$k]);
+		}
+	}
 }
 ?>

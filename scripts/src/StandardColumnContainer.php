@@ -23,9 +23,9 @@ class StandardColumnContainer extends ColumnContainer {
 	public function addName($name, array $remove = [], array $replace = [], $append = '') {
 		$c = new Column($name);
 		$c->setNormalize(true);
-		$c->setToMd5('signature');
-		$c->setCopyPreRemove('name');
-		$c->setCopyPreNormalize('title');
+		$c->setToMd5('_signature');
+		$c->setCopyPreRemove('_title');
+		$c->setCopyPreNormalize('_name');
 		$c->setEscape(false);
 		$c->setRemove($remove);
 		$c->setReplace($replace);
