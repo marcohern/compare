@@ -24,6 +24,7 @@ class StandardColumnContainer extends ColumnContainer {
 		$c = new Column($name);
 		$c->setNormalize(true);
 		$c->setToMd5('signature');
+		$c->setCopyPreRemove('name');
 		$c->setCopyPreNormalize('title');
 		$c->setEscape(false);
 		$c->setRemove($remove);

@@ -28,6 +28,12 @@ class ExitoVgPs4Executor extends Executor {
 			'/Nintendo Switch/i',
 			'/Edición Estándar/i',
 			'/Edición Legendaria/i'
+		],[
+			'/[áä]/ui' => "a",
+			'/[éë]/ui' => "e",
+			'/[íï]/ui' => "i",
+			'/[óö]/ui' => "o",
+			'/[úü]/ui' => "u",
 		]);
 		$this->columns->addSimple('image1');
 		$this->columns->addSimple('image1_alt');

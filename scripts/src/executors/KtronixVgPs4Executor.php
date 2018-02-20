@@ -12,13 +12,15 @@ class KtronixVgPs4Executor extends Executor {
 
  		$this->columns = new StandardColumnContainer();
 		$this->columns->addSimple('id');
-		$this->columns->addName('name',[
+		$this->columns->addName('code',[
 			'/^\s*Videojuego (PS[43] |XBOX ONE (X )?)?/i',
 			'/Edition PS[43]$/',
 			'/ XBOX ONE/',
 			'/â/',
 			'/ Estandard/i',
 			'/ Estandar/i'
+		],[
+			'/WW II/i' => "WWII"
 		]);
 		$this->columns->addSimple('price');
 		$this->columns->addSimple('brand');

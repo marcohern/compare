@@ -3,7 +3,7 @@
 class Stringer {
 	public static function normalize($value) {
 		$value = strtolower($value);
-		$value = preg_replace('/[:;\.\-]/', '', $value);
+		$value = preg_replace('/[:;\-]/', '', $value);
 		$value = preg_replace('/\s+/', ' ', $value);
 		$value = trim($value);
 		return $value;
