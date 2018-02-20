@@ -18,6 +18,7 @@ class FalabellaVgPs4Executor extends Executor {
 
 		$this->columns = new StandardColumnContainer();
 		$this->jsonExplorer = new FalabelaBrowserProductJsonExplorer();
+		$this->jsonExplorer->setAppend(' ps4');
 
 		$this->columns->addSimple('json');
 

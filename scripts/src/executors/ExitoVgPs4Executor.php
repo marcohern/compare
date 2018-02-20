@@ -20,7 +20,7 @@ class ExitoVgPs4Executor extends Executor {
 
 		$this->columns = new StandardColumnContainer();
 		$this->columns->addSimple('url1');
-		$this->columns->addName('title1',[
+		$this->columns->addName('code',[
 			'/^\s*Videojuego /i',
 			'/\s*(para)?\s*PS4/i',
 			'/\s*-\s+www\.exito\.com/i',
@@ -34,7 +34,7 @@ class ExitoVgPs4Executor extends Executor {
 			'/[íï]/ui' => "i",
 			'/[óö]/ui' => "o",
 			'/[úü]/ui' => "u",
-		]);
+		], ' ps4');
 		$this->columns->addSimple('image1');
 		$this->columns->addSimple('image1_alt');
 		$this->columns->addSimple('brand1');

@@ -12,6 +12,7 @@ class FalabelaBrowserProductJsonExplorer extends JsonExplorer {
 		'/[úü]/ui' => "u",
 		'/Until Down/i'                    => "Until Dawn",
 		'/W2K18/i'                         => "WWE 2K18",
+		'/FIFA17/i'                        => "FIFA 17",
 		'/Blackops/i'                      => "Black Ops",
 		'/Fighterz/i'                      => "Fighter Z",
 		'/Eve:Valkyrie/i'                  => "Eve: Valkyrie",
@@ -36,6 +37,9 @@ class FalabelaBrowserProductJsonExplorer extends JsonExplorer {
 	];
 
 	protected $navState;
+	private $append;
+
+	public function setAppend($append) { $this->append = $append; }
 
 	public function getNavState() { return $this->navState; }
 
@@ -66,7 +70,7 @@ class FalabelaBrowserProductJsonExplorer extends JsonExplorer {
 
 			$name = Stringer::replace($item->title, self::$replaceName);
 			$name = Stringer::remove($name, self::$removeName);
-			$code = Stringer::normalize($name);
+			$code = Stringer::normalize($name).$this->append;
 			$signature = md5($code);
 			$record = [
 				'productId' => $item->productId,

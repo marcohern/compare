@@ -20,7 +20,7 @@ class StandardColumnContainer extends ColumnContainer {
 		return $c;
 	}
 
-	public function addName($name, array $remove = [], array $replace = []) {
+	public function addName($name, array $remove = [], array $replace = [], $append = '') {
 		$c = new Column($name);
 		$c->setNormalize(true);
 		$c->setToMd5('signature');
@@ -29,6 +29,7 @@ class StandardColumnContainer extends ColumnContainer {
 		$c->setEscape(false);
 		$c->setRemove($remove);
 		$c->setReplace($replace);
+		$c->setAppend($append);
 		$this->add($c);
 		return $c;
 	}

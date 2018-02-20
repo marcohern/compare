@@ -21,7 +21,7 @@ class KtronixVgPs4Executor extends Executor {
 			'/ Estandar/i'
 		],[
 			'/WW II/i' => "WWII"
-		]);
+		], ' ps4');
 		$this->columns->addSimple('price');
 		$this->columns->addSimple('brand');
 		$this->columns->addEscape('category');

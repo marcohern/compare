@@ -13,6 +13,7 @@ class Column {
 	private $copyPreRemove; //name of column which the value will be copied to before removing
 	private $copyPreNormalize; //name of column which the value will be copied to before normalizing, after removing
 	private $escape; //true:escape the current string, false: leave as is
+	private $append; //append this to the value
 
 	/**
 	 * Constructor.
@@ -26,6 +27,7 @@ class Column {
 		$this->copyPreRemove = false;
 		$this->copyPreNormalize = false;
 		$this->escape = false;
+		$this->append = '';
 	}
 
 	/****
@@ -43,6 +45,7 @@ class Column {
 	public function setCopyPreRemove    (      $name   ) { $this->copyPreRemove    = $name;    }
 	public function setCopyPreNormalize (      $name   ) { $this->copyPreNormalize = $name;    }
 	public function setEscape           (      $esc    ) { $this->escape           = $esc;     }
+	public function setAppend           (      $append ) { $this->append           = $append;  }
 
 	/****
 	 * Getters
@@ -55,6 +58,7 @@ class Column {
 	public function getCopyPreRemove    () { return $this->copyPreRemove;    }
 	public function getCopyPreNormalize () { return $this->copyPreNormalize; }
 	public function getEscape           () { return $this->escape;           }
+	public function getAppend           () { return $this->append;           }
 
 	/**
 	 * Process a a value for the given column.
@@ -77,6 +81,9 @@ class Column {
 		}
 		if ($this->normalize) {
 			$value = Stringer::normalize($value);
+		}
+		if ($this->append) {
+			$value .= $this->append;
 		}
 		if ($this->toMd5) {
 			$record[$this->toMd5] = md5($value);
