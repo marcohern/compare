@@ -37,15 +37,15 @@ class KtronixVgPs4Executor extends Executor {
 		return $columns;
 	}
 
- 	protected function initCrawler() {
-		$this->pagerExp = '/'
+	protected function initItemsRegex() {
+		return require('src/expresions/ktronix_product_list.php');
+	}
+
+	protected function initPagingRegex() {
+		return '/'
 			.'Productos: 1-(?<rpp>\d{1,4}) de (?<total>\d{1,4})'
 		.'/';
-
-		$this->itemsExp = require('src/expresions/ktronix_product_list.php');
-
-		return new Crawler($this->logger, $this->columns, $this->itemsExp, $this->pagerExp);
- 	}
+	}
  }
 
 ?>
