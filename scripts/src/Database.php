@@ -1,13 +1,19 @@
 <?php
 
+/**
+ * Simple MySQL database access layer
+ */
 class Database {
-	private $mysqli;
+	private $mysqli; //MySQLi resource
 
-	private $host;
-	private $db;
-	private $user;
-	private $pwd;
+	private $host; //Database host name
+	private $db;   //Database name
+	private $user; //username
+	private $pwd;  //password
 
+	/**
+	 * Constructor
+	 */
 	public function __construct() {
 		$this->mysqli = null;
 		$config = require('src/config/db.php');
@@ -17,6 +23,9 @@ class Database {
 		$this->pwd  = $config['password'];
 	}
 
+	/**
+	 * Connect to database
+	 */
 	public function connect() {
 		$this->mysqli = new mysqli($this->host, $this->user, $this->pwd, $this->db);
 		if ($this->mysqli->connect_error) {
@@ -28,10 +37,16 @@ class Database {
 		}
 	}
 
+	/**
+	 * Close a currently open connection
+	 */
 	public function close() {
 		$this->mysqli->close();
 	}
 
+	/**
+	 * Insert a record into a table.
+	 */
 	public function insert($table, &$record) {
 		$data = [$record];
 		$sql = $this->getInsertStmt($table, $data);
@@ -41,6 +56,9 @@ class Database {
 		}	
 	}
 
+	/**
+	 * Insert multiple records into a table
+	 */
 	public function insertMultiple($table, &$data) {
 		$sql = $this->getInsertStmt($table, $data);
 		$r = $this->mysqli->query($sql);
@@ -49,6 +67,9 @@ class Database {
 		}
 	}
 
+	/**
+	 * update a single record of a table
+	 */
 	public function update($table, $primkey, $id, &$record) {
 		$sql = $this->getUpateStmt($table, $record, [$primkey => $id]);
 		$r = $this->mysqli->query($sql);
@@ -57,6 +78,9 @@ class Database {
 		}	
 	}
 
+	/**
+	 * update multiple records of a table
+	 */
 	public function updateMultiple($table, &$record, &$filters) {
 		$sql = $this->getUpateStmt($table, $record, $filters);
 		$r = $this->mysqli->query($sql);
@@ -65,6 +89,9 @@ class Database {
 		}
 	}
 
+	/**
+	 * select a single record
+	 */
 	public function selectSingle($table, $filters) {
 		$sql = $this->getSimpleSelectStmt($table, $filters);
 		$r = $this->mysqli->query($sql);
@@ -78,7 +105,7 @@ class Database {
 			return $result;
 		}
 	}
-
+	
 	public function getInsertStmt($table, &$data) {
 		$sql = "INSERT INTO `$table` ";
 		if (count($data) > 0) {
