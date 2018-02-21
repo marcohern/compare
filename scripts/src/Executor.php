@@ -7,11 +7,11 @@ require_once("src/Crawler.php");
 abstract class Executor {
 
  	protected $columns;
- 	protected $crawler;
+ 	private $crawler;
  	protected $jsonExplorer;
 
- 	protected $url;
- 	protected $urltpl;
+ 	private $url;
+ 	private $urltpl;
 	protected $pagingExp;
 	protected $itemsExp;
 	protected $table;
@@ -27,7 +27,28 @@ abstract class Executor {
 
 	public function getItems() { return $this->table; }
 
-	abstract protected function init();
+	private function init() {
+
+ 		$this->logger->log("init", "Executor");
+ 		
+		$ua = $this->initUrls();
+		if (array_key_exists(0, $ua)) {
+			$this->url = $ua[0];	
+		} else if (array_key_exists('url', $ua)) {
+			$this->url = $ua['url'];
+		}
+		if (array_key_exists(1, $ua)) {
+			$this->urltpl = $ua[1];	
+		} else if (array_key_exists('urltpl', $ua)) {
+			$this->urltpl = $ua['urltpl'];
+		}
+		$this->columns = $this->initColumns();
+		$this->crawler = $this->initCrawler();
+	}
+
+	abstract protected function initUrls();
+	abstract protected function initCrawler();
+	abstract protected function initColumns();
 	
 	public function run() {
 		$this->crawler->crawlFirst($this->url, $this->table);

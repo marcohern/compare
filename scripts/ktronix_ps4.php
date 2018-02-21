@@ -16,4 +16,8 @@ $data = $executor->getItems();
 
 $p->save('prd_ktronix', $data, 'PS4-GAMES');
 
+
+//Saved!... now what?
+// 1. Send the info to integrated table
+// 2. dont forget to save stats
 ?>

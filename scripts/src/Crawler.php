@@ -14,6 +14,7 @@ class Crawler {
 	protected $offset;
 	protected $p;
 	protected $logger;
+	protected $isLastPage;
 
 	public function getRpp  () { return $this->rpp;   }
 	public function getTotal() { return $this->total; }
@@ -24,17 +25,24 @@ class Crawler {
 		$this->pagerExp = $pagerExp;
 		$this->rpp = 0;
 		$this->total = 0;
-		$this->pages = 0;
+		$this->pages = 1;
 		$this->offset = 0;
 		$this->p = 0;
 		$this->logger = $logger;
+		$this->isLastPage = false; 
 	}
 	protected function updatePageState() {
 		if ($this->rpp) {
 			$this->offset += $this->rpp;
 		}
 		$this->p++;
-		if ($this->p >= $this->pages) return false;
+		$this->isLastPage = false;
+		if ($this->p+1 == $this->pages) {
+			$this->isLastPage = true;
+		}
+		if ($this->p >= $this->pages) {
+			return false;
+		}
 		return true;
 	}
 
@@ -45,7 +53,7 @@ class Crawler {
 				$this->rpp = $pagerMatches['rpp'];
 				$this->total = $pagerMatches['total'];
 				$this->pages = ceil($this->total/$this->rpp);
-			$this->logger->log("RPP:".$this->rpp." TOTAL:".$this->total." PAGES:".$this->pages,"Crawler");
+				$this->logger->log("RPP:".$this->rpp." TOTAL:".$this->total." PAGES:".$this->pages,"Crawler");
 			}
 		}		
 	}
@@ -55,6 +63,8 @@ class Crawler {
 		$items = [];
 		if ($r !== false) {
 			$items = $this->cols->processMatches($itemMatches);
+			$expected = (!$this->isLastPage) ? $this->rpp : $this->total - $this->offset;
+			$this->logger->log("Expected: ".$expected." items, got ".count($items));
 		}
 		$table = array_merge($table, $items);
 		return $r;
