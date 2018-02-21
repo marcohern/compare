@@ -42,23 +42,28 @@ abstract class Executor {
 		} else if (array_key_exists('urltpl', $ua)) {
 			$this->urltpl = $ua['urltpl'];
 		}
-		$this->columns   = $this->initColumns();
-		$this->itemsExp  = $this->initItemsRegex();
-		$this->pagingExp = $this->initPagingRegex();
-		$this->crawler   = $this->initCrawler();
+		$this->columns      = $this->initColumns();
+		$this->itemsExp     = $this->initItemsRegex();
+		$this->pagingExp    = $this->initPagingRegex();
+		$this->jsonExplorer = $this->initJsonExplorer();
+		$this->crawler      = $this->initCrawler($this->logger, $this->columns, $this->jsonExplorer, $this->itemsExp, $this->pagingExp);
 	}
 
 	abstract protected function initUrls();
 	abstract protected function initColumns();
 	abstract protected function initItemsRegex();
 	abstract protected function initPagingRegex();
+
+	protected function initJsonExplorer() {
+		return null;
+	}
 	
-	protected function initCrawler() {
+	protected function initCrawler(&$logger, &$columns, &$jsonExplorer, &$itemsExp, &$pagingExp) {
 		return new Crawler(
-			$this->logger,
-			$this->columns,
-			$this->itemsExp,
-			$this->pagingExp
+			$logger,
+			$columns,
+			$itemsExp,
+			$pagingExp
 		);
 	}
 	

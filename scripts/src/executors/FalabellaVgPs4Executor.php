@@ -7,22 +7,43 @@ require_once("src/crawlers/FalabellaProductListJsonCrawler.php");
 require_once("src/jsonexplorers/FalabelaBrowserProductJsonExplorer.php");
 
 class FalabellaVgPs4Executor extends Executor {
-	protected function init() {
- 		$this->logger->log("init", "FalabellaVgPs4Executor");
-		$this->url = 'https://www.falabella.com.co/falabella-co/category/cat3020960/PS4';
-		$this->urltpl = 'https://www.falabella.com.co/rest/model/falabella/rest/browse/BrowseActor/get-product-record-list?[json]';
-		$this->itemsExp = '/'
+
+	protected function initUrls() {
+		$url = "https://www.falabella.com.co/falabella-co/category/cat3020960/PS4";
+ 		$urltpl = "https://www.falabella.com.co/rest/model/falabella/rest/browse/BrowseActor/get-product-record-list?[json]";
+ 		return [ $url,  $urltpl ];
+	}
+
+	protected function initColumns() {
+		$columns = new StandardColumnContainer();
+		$columns->addSimple('json');
+		return $columns;
+	}
+
+	protected function initItemsRegex() {
+		return '/'
 			.'var fbra_browseProductListConfig = (?<json>\{.*\});\s+'
 			.'var fbra_browseProductList'
-		.'/';
+		.'/';;
+	}
 
-		$this->columns = new StandardColumnContainer();
-		$this->jsonExplorer = new FalabelaBrowserProductJsonExplorer();
-		$this->jsonExplorer->setAppend(' ps4');
+	protected function initPagingRegex() {
+		return null;
+	}
 
-		$this->columns->addSimple('json');
+	protected function initJsonExplorer() {
+		$jsonExplorer = new FalabelaBrowserProductJsonExplorer();
+		$jsonExplorer->setAppend(' ps4');
+		return $jsonExplorer;
+	}
 
-		$this->crawler = new FalabellaProductListJsonCrawler($this->logger, $this->jsonExplorer, $this->columns, $this->itemsExp);
+	protected function initCrawler(&$logger, &$columns, &$jsonExplorer, &$itemsExp, &$pagingExp) {
+		return new FalabellaProductListJsonCrawler(
+			$logger,
+			$jsonExplorer,
+			$columns,
+			$itemsExp
+		);
 	}
 }
 

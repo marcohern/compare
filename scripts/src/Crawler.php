@@ -1,5 +1,5 @@
 <?php
-
+require_once("src/exceptions/CrawlerException.php");
 require_once("Logger.php");
 require_once("StandardColumnContainer.php");
 
@@ -64,7 +64,7 @@ class Crawler {
 		if ($r !== false) {
 			$items = $this->cols->processMatches($itemMatches);
 			$expected = (!$this->isLastPage) ? $this->rpp : $this->total - $this->offset;
-			$this->logger->log("Expected: ".$expected." items, got ".count($items));
+			$this->logger->log("Expected: ".$expected." items, got ".count($items), "Crawler");
 		}
 		$table = array_merge($table, $items);
 		return $r;
