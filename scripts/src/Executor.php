@@ -12,6 +12,7 @@ abstract class Executor {
  	private $crawler;
 	private $pagingExp;
 	private $itemsExp;
+	private $glogger;
  	
  	protected $jsonExplorer;
 	protected $table;
@@ -22,13 +23,13 @@ abstract class Executor {
 		$this->table = [];
 		$this->db = new Database();
 		$this->logger = new CmdLogger();
+		$this->glogger = new CmdLogger();
 		$this->init();
 	}
 
 	public function getItems() { return $this->table; }
 
 	private function init() {
-
  		$this->logger->log("init", "Executor");
  		
 		$ua = $this->initUrls();
@@ -68,9 +69,12 @@ abstract class Executor {
 	}
 	
 	public function run() {
+
+		$this->glogger->entryStart("Total duration", "Executor");
 		$this->crawler->crawlFirst($this->url, $this->table);
 		do {} while($this->crawler->crawlNext($this->urltpl, $this->table));
 		$this->logger->log("total records:".count($this->table),"Crawler");
+		$this->glogger->entryEnd();
 	}
 
 	public function csv() {

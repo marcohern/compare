@@ -3,9 +3,6 @@
 require_once("ColumnContainer.php");
 
 class StandardColumnContainer extends ColumnContainer {
-	public function __construct() {
-		parent::__construct();
-	}
 
 	public function addSimple($name) {
 		$c = new Column($name);

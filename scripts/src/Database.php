@@ -105,7 +105,10 @@ class Database {
 			return $result;
 		}
 	}
-	
+
+	/**
+	 * build an SQL INSERT Statement with multiple records
+	 */
 	public function getInsertStmt($table, &$data) {
 		$sql = "INSERT INTO `$table` ";
 		if (count($data) > 0) {
@@ -132,6 +135,9 @@ class Database {
 		return $sql;
 	}
 
+	/**
+	 * build an SQL UPDATE Statement
+	 */
 	public function getUpateStmt($table, &$record, $filters) {
 		$sql = "UPDATE `$table` ";
 		$fld=0;
@@ -149,6 +155,9 @@ class Database {
 		return $sql;
 	}
 
+	/**
+	 * build a simple SQL SELECT Statement
+	 */
 	public function getSimpleSelectStmt($table, &$filters) {
 		$sql = "SELECT * FROM `$table` ";
 		if (count($filters)>0) {
@@ -163,6 +172,9 @@ class Database {
 		return $sql;
 	}
 
+	/**
+	 * return a literal value.
+	 */
 	protected function getLiteral($value) {
 		if (is_null($value)) {
 			return "NULL";
