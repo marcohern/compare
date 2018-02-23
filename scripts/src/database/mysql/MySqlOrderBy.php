@@ -2,9 +2,9 @@
 
 inc("/src/database/SqlConstants.php");
 inc("/src/database/ISqlOrderBy.php");
-inc('/src/database/mysql/MySqlColumnName.php');
+inc('/src/database/mysql/MySqlFilters.php');
 
-class MySqlOrderBy extends MySqlColumnName implements ISqlOrderBy {
+class MySqlOrderBy extends MySqlFilters implements ISqlOrderBy {
 	public function getOrderBy(array &$orderby = null) {
 		if (empty($orderby)) return SQL_STR_EMPTY;
 		$i = 0;

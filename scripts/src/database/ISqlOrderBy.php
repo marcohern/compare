@@ -1,7 +1,7 @@
 <?php
 
 interface ISqlOrderBy {
-	public function getOrderBy(array &$orderby);
+	public function getOrderBy(array &$orderby = null);
 }
 
 ?>

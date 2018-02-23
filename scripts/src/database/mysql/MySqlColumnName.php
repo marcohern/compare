@@ -1,9 +1,10 @@
 <?php
 
 inc("/src/database/SqlConstants.php");
+inc("/src/database/SqlLiteral.php");
 inc('/src/database/ISqlColumnName.php');
 
-class MySqlColumnName implements ISqlColumnName {
+class MySqlColumnName extends SqlLiteral implements ISqlColumnName {
 	public function getColumnName(&$colname, &$alias = null) {
 		if (is_null($alias)) {
 			return SQL_MY_ID_CONT.$colname.SQL_MY_ID_CONT;
