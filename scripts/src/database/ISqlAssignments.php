@@ -1,7 +1,7 @@
 <?php
 
 interface ISqlAssignment {
-	public function getAssignments(&$record);
+	public function getAssignments(array &$record);
 }
 
 ?>

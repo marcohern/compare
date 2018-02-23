@@ -13,7 +13,11 @@ class MySqlQueryBuilder extends MySqlOrderBy implements ISqlQueryBuilder {
 		if (!empty($sqlOrderBy)) $sql.=" ORDER BY $sqlOrderBy";
 		return $sql;
 	}
-	public function insert($table, array &$data = null) {}
+
+	public function insert($table, array &$data = null) {
+		
+	}
+
 	public function update($table, array &$record, array &$filters = null) {}
 	public function delete($table, array &$filters = null) {}
 }
