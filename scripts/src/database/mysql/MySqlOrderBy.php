@@ -5,7 +5,8 @@ inc("/src/database/ISqlOrderBy.php");
 inc('/src/database/mysql/MySqlColumnName.php');
 
 class MySqlOrderBy extends MySqlColumnName implements ISqlOrderBy {
-	public function getOrderBy(array &$orderby) {
+	public function getOrderBy(array &$orderby = null) {
+		if (empty($orderby)) return SQL_STR_EMPTY;
 		$i = 0;
 		$sql = SQL_STR_EMPTY;
 		foreach ($orderby as $k => $v) {
