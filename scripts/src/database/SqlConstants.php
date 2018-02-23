@@ -1,6 +1,7 @@
 <?php
 
 define('SQL_STR_EMPTY'       , '' );
+define('SQL_AS'              , ' AS ');
 define('SQL_STR_CONT'        , "'");
 define('SQL_EXP_SEP'         , ',');
 define('SQL_EXP_CONT_OPEN'   , '(');

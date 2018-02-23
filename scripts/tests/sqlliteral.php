@@ -1,7 +1,6 @@
 <?php
 
 require_once("../src/compare.php");
-
 inc("/src/database/SqlLiteral.php");
 
 $value1 = 123.45;
