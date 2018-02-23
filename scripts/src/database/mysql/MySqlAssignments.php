@@ -9,7 +9,7 @@ class MySqlAssignments extends MySqlFilters implements ISqlAssignment {
 	public function getAssignments(array &$record) {
 		$i = 0;
 		$sql = SQL_STR_EMPTY;
-		foreach($filters as $k => $v) {
+		foreach($record as $k => $v) {
 			$sql .= ($i===0) ? SQL_STR_EMPTY : SQL_EXP_SEP;
 			$sql .= $this->getColumnName($k).' = '.$this->getLiteral($v);
 			$i++;

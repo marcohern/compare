@@ -14,6 +14,17 @@ class MySqlColumnName extends SqlLiteral implements ISqlColumnName {
 		}
 	}
 
+	public function getColumnList(array &$record) {
+		$i = 0;
+		$sql = SQL_STR_EMPTY;
+		foreach($record as $k => $v) {
+			$sql .= ($i===0) ? SQL_STR_EMPTY : SQL_EXP_SEP;
+			$sql .= $this->getColumnName($k);
+			$i++;
+		}
+		return $sql;
+	}
+
 	public function getColumnAliasList(array &$record) {
 		$i = 0;
 		$sql = SQL_STR_EMPTY;

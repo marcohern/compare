@@ -8,6 +8,9 @@ $columns = null;
 $order = ['id'];
 $cn = new MySqlQueryBuilder();
 echo $cn->select('users', $columns, $filters, $order)."\n";
+echo $cn->insert('users', $filters)."\n";
+echo $cn->update('users', $filters, $filters)."\n";
+echo $cn->delete('users', $filters)."\n";
 
 
 ?>
