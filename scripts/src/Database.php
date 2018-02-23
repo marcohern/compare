@@ -10,6 +10,7 @@ class Database {
 	private $db;   //Database name
 	private $user; //username
 	private $pwd;  //password
+	private $charset;  //charset
 
 	/**
 	 * Constructor
@@ -21,6 +22,7 @@ class Database {
 		$this->db   = $config['database'];
 		$this->user = $config['user'];
 		$this->pwd  = $config['password'];
+		$this->charset  = $config['charset'];
 	}
 
 	/**
@@ -32,8 +34,8 @@ class Database {
 			die('Connect Error (' . $this->mysqli->connect_errno . ') ' . $this->mysqli->connect_error);
 		}
 
-		if (!$this->mysqli->set_charset("utf8")) {
-			die("Unable to set charset utf8: ".$this->mysqli->error);
+		if (!$this->mysqli->set_charset($this->charset)) {
+			die("Unable to set charset {$this->charset}: ".$this->mysqli->error);
 		}
 	}
 

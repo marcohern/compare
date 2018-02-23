@@ -4,7 +4,8 @@ return [
 	'host'     => 'localhost',
 	'database' => 'compare',
 	'user'     => 'root',
-	'password' => ''
+	'password' => '',
+	'charset'  => 'utf8'
 ];
 
 ?>
