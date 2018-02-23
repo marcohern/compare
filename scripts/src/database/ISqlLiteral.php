@@ -2,8 +2,8 @@
 
 interface ISqlLiteral {
 	public function getLiteral      (&$value );
-	public function getLiteralList  (&$record);
-	public function getLiteralTable (&$table );
+	public function getLiteralList  (array &$record);
+	public function getLiteralTable (array &$table );
 }
 
 ?>

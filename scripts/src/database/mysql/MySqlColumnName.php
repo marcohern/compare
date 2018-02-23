@@ -13,7 +13,7 @@ class MySqlColumnName implements ISqlColumnName {
 		}
 	}
 
-	public function getColumnAliasList(&$record) {
+	public function getColumnAliasList(array &$record) {
 		$i = 0;
 		$sql = SQL_STR_EMPTY;
 		foreach($record as $k => $v) {

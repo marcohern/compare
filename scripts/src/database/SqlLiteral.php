@@ -21,7 +21,7 @@ class SqlLiteral implements ISqlLiteral {
 		return SQL_STR_CONT.addslashes($value).SQL_STR_CONT; 
 	}
 
-	public function getLiteralList  (&$record) {
+	public function getLiteralList  (array &$record) {
 		$i = 0;
 		$sql = SQL_STR_EMPTY;
 		foreach($record as $v) {
@@ -32,7 +32,7 @@ class SqlLiteral implements ISqlLiteral {
 		return $sql;
 	}
 
-	public function getLiteralTable (&$table ) {
+	public function getLiteralTable (array &$table ) {
 		$i = 0;
 		$sql = SQL_STR_EMPTY;
 		foreach($table as $record) {
