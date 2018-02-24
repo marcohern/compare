@@ -45,5 +45,14 @@ class Table {
 			$this->orderby
 		);
 	}
+
+	public function create(&$record) {
+		$arr = get_object_vars($record);
+		$result = $this->db->insert($this->table, $arr);
+		if ($result->id!=0) {
+			$record->{$this->idkey} = $result->id;
+		}
+		return $record;
+	}
 }
 ?>

@@ -72,8 +72,6 @@ class MySqlDatabase implements IDatabase {
 				$result->created = $this->mi->affected_rows;
 				$result->id = 0+$id;
 				return $result;
-			} else {
-				throw new DatabaseException("INSERT ERROR:".$this->mi->error);
 			}
 		}
 		throw new DatabaseException("INSERT ERROR:".$this->mi->error);
