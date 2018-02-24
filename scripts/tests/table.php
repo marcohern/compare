@@ -2,7 +2,7 @@
 
 
 require_once("../src/compare.php");
-inc("/src/models/StoresTable.php");
+inc("/src/storage/StoresTable.php");
 inc("/src/database/mysql/MySqlDatabase.php");
 
 $db = new MySqlDatabase();
@@ -19,4 +19,5 @@ $data = $st->find(['country' => 'CO']);
 var_dump($data);
 
 $db->close();
+
 ?>

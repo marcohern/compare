@@ -1,6 +1,6 @@
 <?php
 
-inc("/src/models/Table.php");
+inc("/src/storage/Table.php");
 
 class StoresTable extends Table {
 
