@@ -1,5 +1,6 @@
 <?php
 
+inc("/src/exceptions/DatabaseException.php");
 inc("/src/database/mysql/MySqlQueryBuilder.php");
 inc("/src/database/SqlConstants.php");
 inc("/src/database/IDatabase.php");
@@ -59,8 +60,23 @@ class MySqlDatabase implements IDatabase {
 		return $rows;
 	}
 
-	public function insert($table, array &$data = null) {
+	public function insert($table, array $data = null) {
+		$sql = $this->sqlb->insert($table, $data);
+		$r = $this->mi->query($sql);
+		if ($r) {
+			$r = $this->mi->query("SELECT LAST_INSERT_ID() as id");
+			if ($r) {
+				$id = $r->fetch_assoc()['id'];
 
+				$result = new stdClass();
+				$result->created = $this->mi->affected_rows;
+				$result->id = 0+$id;
+				return $result;
+			} else {
+				throw new DatabaseException("INSERT ERROR:".$this->mi->error);
+			}
+		}
+		throw new DatabaseException("INSERT ERROR:".$this->mi->error);
 	}
 
 	public function update($table, array &$record, array &$filters = null) {
