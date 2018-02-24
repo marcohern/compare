@@ -47,6 +47,29 @@ class MySqlDatabase implements IDatabase {
 	public function close() {
 		$this->mi->close();
 	}
+
+	public function select($table, $columns = null, array $filters = null, array $orderby = null) {
+		$sql = $this->sqlb->select($table, $column, $filters, $orderby);
+		$rows = [];
+		$r = $this->mi->query($sql);
+		if ($r) while ($item = $r->fetch_assoc()) {
+			$rows[] = (object)$item;
+		}
+		$r->close();
+		return $rows;
+	}
+
+	public function insert($table, array &$data = null) {
+
+	}
+
+	public function update($table, array &$record, array &$filters = null) {
+
+	}
+
+	public function delete($table, array &$filters = null) {
+
+	}
 }
 
 ?>
