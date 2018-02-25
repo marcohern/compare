@@ -51,6 +51,18 @@ class Table {
 		return $r;
 	}
 
+	public function first($filters) {
+		$result = $this->db->select(
+			$this->table,
+			$this->columns,
+			$filters,
+			$this->orderby,
+			1
+		);
+		if(array_key_exists(0, $result)) return (object) $result[0];
+		else return null;
+	}
+
 	public function create(&$record) {
 		$record->created = new DateTime("now");
 		$arr = get_object_vars($record);
@@ -62,7 +74,6 @@ class Table {
 	}
 
 	public function update(&$record) {
-		$record->update();
 		$arr = get_object_vars($record);
 		$this->db->update($this->table, $arr, [ $this->idkey => $record->{$this->idkey} ] );
 		return $record;

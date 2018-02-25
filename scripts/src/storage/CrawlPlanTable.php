@@ -6,8 +6,8 @@ class CrawlPlanTable extends Table {
 
 	public function __construct(IDatabase $db) {
 		parent::__construct('crawlplan', $db);
-		$this->columns = ['id', 'url', 'expected', 'status', 'created', 'updated'];
-		$this->orderby = ['id' => 'ASC'];
+		$this->columns = ['id', 'url', 'expected', 'status', 'order', 'created', 'updated'];
+		$this->orderby = ['order' => 'ASC'];
 	}
 }
 

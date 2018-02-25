@@ -1,16 +1,17 @@
 <?php
 
 inc("/src/database/SqlConstants.php");
-inc('/src/database/mysql/MySqlOrderBy.php');
+inc('/src/database/mysql/MySqlLimit.php');
 inc("/src/database/ISqlQueryBuilder.php");
 
-class MySqlQueryBuilder extends MySqlOrderBy implements ISqlQueryBuilder {
-	public function select($table, &$columns = null, array &$filters = null, array &$orderby = null) {
+class MySqlQueryBuilder extends MySqlLimit implements ISqlQueryBuilder {
+	public function select($table, &$columns = null, array &$filters = null, array &$orderby = null, $limit = null) {
 		$sqlColumns = (empty($columns)) ? '*' : $this->getColumnAliasList($columns);
 		$sqlOrderBy = $this->getOrderBy($orderby); 
 		$sql = "SELECT $sqlColumns FROM ".$this->getColumnName($table);
 		$sql .= (empty($filters)) ? '' : " WHERE ".$this->getFilters($filters);
 		if (!empty($sqlOrderBy)) $sql.=" ORDER BY $sqlOrderBy";
+		if (!is_null($limit)) $sql.= " LIMIT ".$this->getLimit($limit);
 		$sql.=";";
 		return $sql;
 	}

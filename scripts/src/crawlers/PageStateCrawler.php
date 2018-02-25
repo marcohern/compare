@@ -20,7 +20,7 @@ class PageStateCrawler extends ProcesorCrawler implements IPageStateCrawler {
 		parent::__construct($cc, $logger);
 		$this->rpp    = 0;
 		$this->total  = 0;
-		$this->pages  = 0;
+		$this->pages  = 1;
 		$this->page   = 0;
 		$this->offset = 0;
 	}
