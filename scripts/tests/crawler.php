@@ -3,7 +3,7 @@
 
 require_once("../src/compare.php");
 
-inc("/src/crawlers/PageStateCrawler.php");
+inc("/src/crawlers/PageCrawler.php");
 inc("/src/logging/DatabaseLogger.php");
 inc("/src/database/mysql/MySqlDatabase.php");
 inc("/src/crawlers/StandardColumnContainer.php");
@@ -30,7 +30,7 @@ $db->connect();
 
 $logger = new DatabaseLogger($db, false);
 
-$cr = new PageStateCrawler($columns, $logger);
+$cr = new PageCrawler($columns, $logger);
 
 $url = "https://www.exito.com/Tecnologia-Consolas_y_video_juegos-PlayStation_4-Juegos_PS4/_/N-2b5q";
 $urltpl = "$url?No=[offset]&Nrpp=[rpp]";
