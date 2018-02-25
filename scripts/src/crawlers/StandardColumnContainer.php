@@ -1,6 +1,6 @@
 <?php
 
-require_once("ColumnContainer.php");
+inc("/src/crawlers/ColumnContainer.php");
 
 class StandardColumnContainer extends ColumnContainer {
 

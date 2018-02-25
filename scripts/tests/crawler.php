@@ -6,7 +6,7 @@ require_once("../src/compare.php");
 inc("/src/crawlers/ProcesorCrawler.php");
 inc("/src/logging/DatabaseLogger.php");
 inc("/src/database/mysql/MySqlDatabase.php");
-inc("/src/StandardColumnContainer.php");
+inc("/src/crawlers/StandardColumnContainer.php");
 
 $columns = new StandardColumnContainer();
 $columns->addSimple('id');

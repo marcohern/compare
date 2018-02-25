@@ -1,7 +1,7 @@
 <?php
 
 inc("/src/crawlers/Crawler.php");
-inc("/src/ColumnContainer.php");
+inc("/src/crawlers/ColumnContainer.php");
 inc("/src/logging/Logger.php");
 
 class ProcesorCrawler extends Crawler {

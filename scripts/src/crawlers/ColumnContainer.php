@@ -1,6 +1,6 @@
 <?php
 
-inc('/src/Column.php');
+inc('/src/crawlers/Column.php');
 
 /**
  * Contains multiple columns of a single table.
