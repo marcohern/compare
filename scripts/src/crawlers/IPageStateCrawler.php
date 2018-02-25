@@ -14,6 +14,7 @@ interface IPageStateCrawler {
 	public function setPage($page = 0);
 	public function nextPage();
 	public function isLastPage();
+	public function getPageItemCount();
 }
 
 ?>
