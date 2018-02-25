@@ -6,8 +6,13 @@ inc("/src/logging/IDurationLogger.php");
 
 class Logger implements ILogger, IDurationLogger {
 
-	protected $entry;
-	protected $microstart;
+	protected $entries;
+	protected $micros;
+
+	public function __construct() {
+		$this->entries = [];
+		$this->micros  = [];
+	}
 
 	private function _log($message, $category) {
 		$entry = new LogEntry();
@@ -23,18 +28,22 @@ class Logger implements ILogger, IDurationLogger {
 	public function start($message, $category='*') {
 		$entry = $this->_log($message, $category);
 		$entry->start = new DateTime("now");
+		$microstart = microtime(true);
 
-		$this->entry = $entry;
-		$this->microstart = microtime(true);
+		array_push($this->entries, $entry);
+		array_push($this->micros, $microstart);
 		
 		return $entry;
 	}
 
 	public function end() {
-		$this->entry->end = new DateTime("now");
+		$entry = array_pop($this->entries);
+		$microstart = array_pop($this->micros);
+		
+		$entry->end = new DateTime("now");
 		$microend = microtime(true);
-		$this->entry->duration = $microend - $this->microstart;
-		return $this->entry;
+		$entry->duration = $microend - $microstart;
+		return $entry;
 	}
 }
 

@@ -60,7 +60,7 @@ class MySqlDatabase implements IDatabase {
 		return $rows;
 	}
 
-	public function insert($table, array $data = null) {
+	public function insert($table, array &$data = null) {
 		$sql = $this->sqlb->insert($table, $data);
 		$r = $this->mi->query($sql);
 		if ($r) {
@@ -74,14 +74,27 @@ class MySqlDatabase implements IDatabase {
 				return $result;
 			}
 		}
-		throw new DatabaseException("INSERT ERROR:".$this->mi->error);
+		throw new DatabaseException("INSERT ERROR: ".$this->mi->error);
 	}
 
-	public function update($table, array &$record, array &$filters = null) {
-
+	public function update($table, array &$record, array $filters = null) {
+		$sql = $this->sqlb->update($table, $record, $filters);
+		$r = $this->mi->query($sql);
+		$affected = 0;
+		if ($r) {
+			return $this->mi->affected_rows;
+		}
+		throw new DatabaseException("UPDATE ERROR: ".$this->mi->error);
 	}
 
-	public function delete($table, array &$filters = null) {
+	public function delete($table, array $filters = null) {
+		$sql = $this->sqlb->delete($table, $filters);
+		$r = $this->mi->query($sql);
+		$affected = 0;
+		if ($r) {
+			return $this->mi->affected_rows;
+		}
+		throw new DatabaseException("DELETE ERROR: ".$this->mi->error);
 
 	}
 }

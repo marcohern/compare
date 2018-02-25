@@ -1,7 +1,7 @@
 <?php
-inc('/src/models/Entity.php');
+inc('/src/models/UpdatableEntity.php');
 
-class LogEntry extends Entity {
+class LogEntry extends UpdatableEntity {
 
 	public $message  = '';
 	public $category = '';

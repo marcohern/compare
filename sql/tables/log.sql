@@ -8,6 +8,7 @@ CREATE TABLE log(
 	start    DATETIME          NULL,
 	`end`    DATETIME          NULL,
 	duration DECIMAL(16,8) NOT NULL,
-	created  DATETIME      NOT NULL
+	created  DATETIME      NOT NULL,
+	updated  DATETIME          NULL
 );
 

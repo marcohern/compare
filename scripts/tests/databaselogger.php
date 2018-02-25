@@ -12,11 +12,18 @@ $db->connect();
 
 $logger = new DatabaseLogger($db);
 
+$logger->start('Duration Entry 1', 'TEST');
+
 var_dump($logger->log("Entry 1", 'TEST'));
+
+$logger->start('Duration Entry 2', 'TEST');
+
 var_dump($logger->log("Entry 2", 'TEST'));
+
+var_dump($logger->end());
+
 var_dump($logger->log("Entry 3", 'TEST'));
 
-$logger->start('Duration Entry 1', 'TEST');
 var_dump($logger->end());
 
 ?>

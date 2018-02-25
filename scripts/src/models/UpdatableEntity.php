@@ -1,6 +1,6 @@
 <?php
 
-inc('/src/models/UpdatableEntity.php');
+inc('/src/models/Entity.php');
 
 class UpdatableEntity extends Entity {
 	

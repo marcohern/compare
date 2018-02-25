@@ -8,6 +8,7 @@ class MemLogger extends Logger implements IMemLogger {
 	private $cnt;
 
 	public function __construct() {
+		parent::__construct();
 		$this->log = [];
 		$this->cnt = 0;
 	}

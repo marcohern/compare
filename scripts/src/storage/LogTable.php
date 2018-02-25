@@ -6,7 +6,7 @@ class LogTable extends Table {
 
 	public function __construct(IDatabase $db) {
 		parent::__construct('log', $db);
-		$this->columns = ['id', 'category', 'message', 'start', 'end','duration', 'created'];
+		$this->columns = ['id', 'category', 'message', 'start', 'end','duration'];
 		$this->orderby = ['id' => 'ASC'];
 	}
 }

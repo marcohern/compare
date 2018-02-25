@@ -38,21 +38,45 @@ class Table {
 	}
 
 	public function find($filters) {
-		return $this->db->select(
+		$result = $this->db->select(
 			$this->table,
 			$this->columns,
 			$filters,
 			$this->orderby
 		);
+		$r=[];
+		foreach ($result as $item) {
+			$r[] = (object) $item;
+		}
+		return $r;
 	}
 
 	public function create(&$record) {
+		$record->created = new DateTime("now");
 		$arr = get_object_vars($record);
 		$result = $this->db->insert($this->table, $arr);
 		if ($result->id!=0) {
 			$record->{$this->idkey} = $result->id;
 		}
 		return $record;
+	}
+
+	public function update(&$record) {
+		$record->update();
+		$arr = get_object_vars($record);
+		$result = $this->db->update($this->table, $arr, [ $this->idkey => $record->{$this->idkey} ] );
+		if ($result->id!=0) {
+			$record->{$this->idkey} = $result->id;
+		}
+		return $record;
+	}
+
+	public function save(&$record) {
+		if (isset($record->{$this->idkey})) {
+			return $this->update($record);
+		} else {
+			return $this->create($record);
+		}
 	}
 }
 ?>
