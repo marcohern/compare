@@ -1,6 +1,6 @@
 <?php
 
-require_once('Column.php');
+inc('/src/Column.php');
 
 /**
  * Contains multiple columns of a single table.
@@ -49,7 +49,7 @@ class ColumnContainer {
 	 */
 	public function processValues(&$record) {
 		foreach ($this->columns as $k => $c) {
-			$c->processValue($record, $record[$k]);
+			$c->processValue($record, $record->$k);
 		}
 	}
 }

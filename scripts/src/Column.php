@@ -1,6 +1,6 @@
 <?php
 
-require_once("Stringer.php");
+inc("/src/Stringer.php");
 /**
  * Represents a column to be imported by a regular expression
  */
@@ -68,7 +68,7 @@ class Column {
 			$value = stripcslashes($value);
 		}
 		if ($this->copyPreRemove) {
-			$record[$this->copyPreRemove] = $value;
+			$record->{$this->copyPreRemove} = $value;
 		}
 		if ($this->replace) {
 			$value = Stringer::replace($value, $this->replace);
@@ -77,7 +77,7 @@ class Column {
 			$value = Stringer::remove($value, $this->remove);
 		}
 		if ($this->copyPreNormalize) {
-			$record[$this->copyPreNormalize] = $value;
+			$record->{$this->copyPreNormalize} = $value;
 		}
 		if ($this->normalize) {
 			$value = Stringer::normalize($value);
@@ -86,9 +86,9 @@ class Column {
 			$value .= $this->append;
 		}
 		if ($this->toMd5) {
-			$record[$this->toMd5] = md5($value);
+			$record->{$this->toMd5} = md5($value);
 		}
-		$record[$this->name] = $value;
+		$record->{$this->name} = $value;
 		return $value;
 	}
 }

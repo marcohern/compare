@@ -8,10 +8,12 @@ inc("/src/storage/LogTable.php");
 class DatabaseLogger extends Logger {
 
 	private $tb;
+	private $logAtEnd;
 
-	public function __construct(IDatabase $db) {
+	public function __construct(IDatabase $db, $logAtEnd = true) {
 		parent::__construct();
 		$this->tb = new LogTable($db);
+		$this->logAtEnd = $logAtEnd;
 	}
 
 	private function create(&$entry) {
@@ -32,12 +34,14 @@ class DatabaseLogger extends Logger {
 
 	public function start($message, $category='*') {
 		$entry = parent::start($message, $category);
-		return $this->create($entry);
+		if ($this->logAtEnd) return $entry; 
+		else return $this->create($entry);
 	}
 
 	public function end() {
 		$entry = parent::end();
-		return $this->update($entry);
+		if ($this->logAtEnd) return $this->create($entry);
+		else return $this->update($entry);
 	}
 }
 

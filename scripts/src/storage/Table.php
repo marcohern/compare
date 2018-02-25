@@ -64,10 +64,7 @@ class Table {
 	public function update(&$record) {
 		$record->update();
 		$arr = get_object_vars($record);
-		$result = $this->db->update($this->table, $arr, [ $this->idkey => $record->{$this->idkey} ] );
-		if ($result->id!=0) {
-			$record->{$this->idkey} = $result->id;
-		}
+		$this->db->update($this->table, $arr, [ $this->idkey => $record->{$this->idkey} ] );
 		return $record;
 	}
 

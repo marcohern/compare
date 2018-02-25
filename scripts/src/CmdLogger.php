@@ -1,6 +1,6 @@
 <?php
 
-require_once("Logger.php");
+inc("/src/logging/Logger.php");
 
 /**
  * A logger that writes to the command line.
