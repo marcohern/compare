@@ -2,7 +2,7 @@
 
 inc("/src/database/IDatabase.php");
 
-interface IPagingCrawler {
+interface IPageStateCrawler {
 
 	public function getRpp();
 	public function getTotal();

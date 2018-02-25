@@ -2,13 +2,13 @@
 
 inc("/src/crawlers/ProcesorCrawler.php");
 inc("/src/crawlers/ColumnContainer.php");
-inc("/src/crawlers/IPagingCrawler.php");
+inc("/src/crawlers/IPageStateCrawler.php");
 inc("/src/crawlers/IPagingTemplateUrl.php");
 inc("/src/logging/Logger.php");
 inc("/src/storage/CrawlPlanTable.php");
 inc("/src/database/IDatabase.php");
 
-class PageStateCrawler extends ProcesorCrawler implements IPagingCrawler, IPagingTemplateUrl {
+class PageStateCrawler extends ProcesorCrawler implements IPageStateCrawler, IPagingTemplateUrl {
 
 	private static $rppExp    = '/\[(rowsPerPage|rpp|r|limit|l)\]/i';
 	private static $offsetExp = '/\[(startRow|s|offset|o)\]/i';
