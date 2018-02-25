@@ -36,32 +36,6 @@ class PageCrawler extends UrlTemplateCrawler implements IPageCrawler {
 		return $items;
 	}
 
-	public function crawlFirstAndPlan(IDatabase $db, $url, $urltpl, &$itemExp, &$pagingExp) {//<2
-		$items = $this->crawlFirst($url, $itemExp, $pagingExp);
-		$this->logStart("Creating plan for $url");
-		$n = $this->getPages();
-		$tb = new CrawlPlanTable($db);
-		for ($i=1; $i<$n; $i++) {
-			$this->setPage($i);
-			$url = $this->getPageUrl($urltpl);
-			$plan = new stdClass();
-			$plan->url      = $url;
-			$plan->rpp      = $this->getRpp();
-			$plan->total    = $this->getTotal();
-			$plan->pages    = $this->getPages();
-			$plan->page     = $this->getPage();
-			$plan->offset   = $this->getOffset();
-			$plan->expected = $this->getPageItemCount();
-			$plan->order    = rand(100000,999999);
-			$plan->status   = 'PENDING';
-			$plan->created  = new DateTime("now");
-			$tb->create($plan);
-		}
-		$this->setPage(0);
-		$this->logEnd();
-		return $items;
-	}
-
 	public function crawlPage($urltpl, &$itemExp) {//<1
 		$url = $this->getPageUrl($urltpl);
 		return parent::crawl($url, $itemExp);
