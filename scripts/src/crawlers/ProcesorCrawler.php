@@ -13,18 +13,6 @@ class ProcesorCrawler extends Crawler {
 		$this->cc = $cc;
 	}
 
-	protected function log($message) {
-		if (!is_null($this->logger)) {
-			$this->logger->log($message, "ProcesorCrawler");
-		}
-	}
-
-	protected function logStart($message) {
-		if (!is_null($this->logger)) {
-			$this->logger->start($message, "ProcesorCrawler");
-		}
-	}
-
 	public function crawl($url, &$exp) {
 		$this->logStart("Complete $url");
 		{

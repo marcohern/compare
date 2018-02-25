@@ -15,13 +15,13 @@ class Crawler implements ICrawler {
 
 	protected function log($message) {
 		if (!is_null($this->logger)) {
-			$this->logger->log($message, "Crawler");
+			$this->logger->log($message, get_class($this));
 		}
 	}
 
 	protected function logStart($message) {
 		if (!is_null($this->logger)) {
-			$this->logger->start($message, "Crawler");
+			$this->logger->start($message, get_class($this));
 		}
 	}
 
@@ -33,7 +33,17 @@ class Crawler implements ICrawler {
 
 	public function crawl($url, &$exp) {
 		$this->logStart("Crawling $url");
-		$content = mb_convert_encoding(file_get_contents($url),$this->charset);
+		$content = $this->retrieveContent($url);
+		$items = $this->extractData($content, $exp);
+		$this->logEnd();
+		return $items;
+	}
+
+	public function retrieveContent(&$url) {
+		return mb_convert_encoding(file_get_contents($url),$this->charset);
+	}
+
+	public function extractData(&$content, &$exp) {
 		$matches = [];
 		$r = preg_match_all($exp, $content, $matches);
 		$items = [];
@@ -47,7 +57,6 @@ class Crawler implements ICrawler {
 				}
 			}
 		}
-		$this->logEnd();
 		return $items;
 	}
 }
