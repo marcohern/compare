@@ -8,7 +8,7 @@ inc("/src/logging/Logger.php");
 inc("/src/storage/CrawlPlanTable.php");
 inc("/src/database/IDatabase.php");
 
-class PagingProcesorCrawler extends ProcesorCrawler implements IPagingCrawler, IPagingTemplateUrl {
+class PageStateCrawler extends ProcesorCrawler implements IPagingCrawler, IPagingTemplateUrl {
 
 	private static $rppExp    = '/\[(rowsPerPage|rpp|r|limit|l)\]/i';
 	private static $offsetExp = '/\[(startRow|s|offset|o)\]/i';
@@ -29,30 +29,30 @@ class PagingProcesorCrawler extends ProcesorCrawler implements IPagingCrawler, I
 		$this->pages = 0;
 	}
 
-	public function getRpp  () { return $this->rpp;   }
-	public function getTotal() { return $this->total; }
-	public function getPages() { return $this->pages; }
+	public function getRpp  () { return $this->rpp;   }//<0
+	public function getTotal() { return $this->total; }//<0
+	public function getPages() { return $this->pages; }//<0
 
-	public function setRppTotal($rpp,  $total) {
+	public function setRppTotal($rpp,  $total) {//<0
 		$this->rpp = $rpp;
 		$this->total = $total;
 		$this->pages = ceil($total/$rpp);
 	}
 
-	public function setPage($page = 0) {
+	public function setPage($page = 0) {//<0
 		$this->page = $page;
 		$this->offset = $page*$this->rpp;
 	}
 
-	public function nextPage() {
+	public function nextPage() {//<0
 		$this->setPage($this->page + 1);
 	}
 
-	public function isLastPage() {
+	public function isLastPage() {//<0
 		return ($this->page + 1 == $this->pages) ? true : false;
 	}
 	
-	public function crawlFirst($url, &$itemExp, &$pagingExp) {
+	public function crawlFirst($url, &$itemExp, &$pagingExp) {//<1
 		$items = [];
 		$this->logStart("Crawling First $url");
 		{
@@ -77,7 +77,7 @@ class PagingProcesorCrawler extends ProcesorCrawler implements IPagingCrawler, I
 		return $items;
 	}
 
-	public function crawlFirstAndPlan(IDatabase $db, $url, $urltpl, &$itemExp, &$pagingExp) {
+	public function crawlFirstAndPlan(IDatabase $db, $url, $urltpl, &$itemExp, &$pagingExp) {//<2
 		$items = $this->crawlFirst($url, $itemExp, $pagingExp);
 		$this->logStart("Creating plan for $url");
 		$n = $this->getPages();
@@ -103,18 +103,18 @@ class PagingProcesorCrawler extends ProcesorCrawler implements IPagingCrawler, I
 		return $items;
 	}
 
-	public function crawlPage($urltpl, &$itemExp) {
+	public function crawlPage($urltpl, &$itemExp) {//<1
 		$url = $this->getPageUrl($urltpl);
 		return parent::crawl($url, $itemExp);
 	}
 
-	public function crawlNext($urltpl, &$itemExp) {
+	public function crawlNext($urltpl, &$itemExp) {//<2
 		if ($this->isLastPage()) return false;
 		$this->nextPage();
 		return parent::crawlPage($urltpl, $itemExp);
 	}
 
-	public function getPageUrl($urltpl) {
+	public function getPageUrl($urltpl) {//<0
 		$url = $urltpl;
 		$url = preg_replace(self::$rppExp   , $this->rpp     , $url);
 		$url = preg_replace(self::$offsetExp, $this->offset  , $url);
