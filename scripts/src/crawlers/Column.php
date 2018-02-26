@@ -1,6 +1,6 @@
 <?php
 
-inc("/src/Stringer.php");
+inc("/src/util/Stringer.php");
 /**
  * Represents a column to be imported by a regular expression
  */
