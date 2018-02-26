@@ -22,5 +22,11 @@ INSERT INTO campaigns(id, store_id, name, code, category, url, urltpl, executor,
 (4, 4, 'Falabella Videojuegos PS4', 'FLB-PS4-GAMES', 'PS4-GAMES'
 	, 'https://www.falabella.com.co/falabella-co/category/cat3020960/PS4'
 	, 'https://www.falabella.com.co/rest/model/falabella/rest/browse/BrowseActor/get-product-record-list?[json]'
-	, 'FalabellaVgPs4Executor', NOW(), NULL);
+	, 'FalabellaVgPs4Executor', NOW(), NULL),
+
+-- EXITO
+(5, 5, 'Exito Videojuegos PS4', 'EXT-PS4-GAMES', 'PS4-GAMES'
+	, 'https://www.exito.com/Tecnologia-Consolas_y_video_juegos-PlayStation_4-Juegos_PS4/_/N-2b5q'
+	, 'https://www.exito.com/Tecnologia-Consolas_y_video_juegos-PlayStation_4-Juegos_PS4/_/N-2b5q?No=[offset]&Nrpp=[rpp]'
+	, 'ExitoVgPs4Executor', NOW(), NULL);
 

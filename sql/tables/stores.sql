@@ -1,3 +1,4 @@
+
 DROP TABLE IF EXISTS stores;
 
 CREATE TABLE stores (
