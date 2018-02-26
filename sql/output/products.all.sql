@@ -5,13 +5,18 @@ CREATE TABLE campaigns (
 	id         INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	store_id   INT NOT NULL,
 	name       VARCHAR(128) NOT NULL,
+	url        VARCHAR(255) NOT NULL,
+	urltpl     VARCHAR(255) NOT NULL,
 	code       VARCHAR(32)  NOT NULL UNIQUE,
+	category   VARCHAR(32)  NOT NULL,
 	executor   VARCHAR(128) NOT NULL,
 	created DATETIME        NOT NULL,
 	updated DATETIME            NULL
 );
 
 CREATE INDEX ix_campaigns_store_id ON campaigns(store_id);
+
+CREATE UNIQUE INDEX un_campaigns_store_category ON campaigns(store_id, category);
 
 
 DROP TABLE IF EXISTS campaign_stats;
@@ -28,6 +33,27 @@ CREATE TABLE campaign_stats(
 
 CREATE INDEX ix_campaign_stats_campaign_id ON campaign_stats(campaign_id);
 
+DROP TABLE IF EXISTS crawlplan;
+
+CREATE TABLE crawlplan(
+	id       INT           NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	url      VARCHAR(255)  NOT NULL,
+	status   ENUM('PENDING','EXECUTED') DEFAULT 'PENDING',
+	rpp      INT           NOT NULL,
+	total    INT           NOT NULL,
+	pages    INT           NOT NULL,
+	page     INT           NOT NULL,
+	offset   INT           NOT NULL,
+	expected INT           NOT NULL DEFAULT 0,
+	acquired INT           NOT NULL DEFAULT 0,
+	`order`  INT           NOT NULL DEFAULT 0,
+	created  DATETIME      NOT NULL,
+	updated  DATETIME          NULL
+);
+
+CREATE INDEX ix_crawlplan_order ON crawlplan(`order` ASC);
+
+
 DROP TABLE IF EXISTS ids;
 
 CREATE TABLE ids (
@@ -36,6 +62,20 @@ CREATE TABLE ids (
 	value INT NOT NULL DEFAULT 1,
 	created DATETIME NOT NULL,
 	updated DATETIME NULL 
+);
+
+
+DROP TABLE IF EXISTS log;
+
+CREATE TABLE log(
+	id       INT           NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	category VARCHAR(32)   NOT NULL,
+	message  VARCHAR(255)  NOT NULL,
+	start    DATETIME          NULL,
+	`end`    DATETIME          NULL,
+	duration DECIMAL(16,8) NOT NULL,
+	created  DATETIME      NOT NULL,
+	updated  DATETIME          NULL
 );
 
 
@@ -159,9 +199,30 @@ CREATE TABLE stores (
 );
 
 
-INSERT INTO campaigns(id, store_id, name, code, executor, created, updated) VALUES
-(1, 1, 'K-Tronix Videojuegos PS4', 'KTRONIX-PS4-GAMES', 'KtronixVgPs4Executor', NOW(), NULL),
-(2, 4, 'Falabella Videojuegos PS4', 'FALABELLA-PS4-GAMES', 'FalabellaVgPs4Executor', NOW(), NULL);
+INSERT INTO campaigns(id, store_id, name, code, category, url, urltpl, executor, created, updated) VALUES
+-- KTRONIX
+(1, 1, 'K-Tronix Videojuegos PS4', 'KTR-PS4-GAMES', 'PS4-GAMES'
+	, 'http://www.ktronix.com/videojuegos/play-station-ps3-ps4-psvita-move/videojuegos-playstation/juegos-playstation-4'
+	, 'http://www.ktronix.com/videojuegos/play-station-ps3-ps4-psvita-move/videojuegos-playstation/juegos-playstation-4?p=[p1]'
+	, 'KtronixVgPs4Executor', NOW(), NULL),
+
+-- ALKOSTO
+(2, 2, 'Alkosto Videojuegos PS4', 'ALK-PS4-GAMES', 'PS4-GAMES'
+	, 'http://www.alkosto.com/videojuegos/play-station-ps3-ps4-psvita-move/videojuegos-playstation/juegos-playstation-4'
+	, 'http://www.alkosto.com/videojuegos/play-station-ps3-ps4-psvita-move/videojuegos-playstation/juegos-playstation-4?p=[p1]'
+	, 'AlkostoVgPs4Executor', NOW(), NULL),
+
+-- ALKOMPRAR
+(3, 3, 'Alkosto Videojuegos PS4', 'AKO-PS4-GAMES', 'PS4-GAMES'
+	, 'http://www.alkomprar.com/videojuegos/play-station-ps3-ps4-psvita-move/videojuegos-playstation/juegos-playstation-4'
+	, 'http://www.alkomprar.com/videojuegos/play-station-ps3-ps4-psvita-move/videojuegos-playstation/juegos-playstation-4?p=[p1]'
+	, 'AlkomprarVgPs4Executor', NOW(), NULL),
+
+-- FALABELLA
+(4, 4, 'Falabella Videojuegos PS4', 'FLB-PS4-GAMES', 'PS4-GAMES'
+	, 'https://www.falabella.com.co/falabella-co/category/cat3020960/PS4'
+	, 'https://www.falabella.com.co/rest/model/falabella/rest/browse/BrowseActor/get-product-record-list?[json]'
+	, 'FalabellaVgPs4Executor', NOW(), NULL);
 
 
 

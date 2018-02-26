@@ -3,6 +3,6 @@
 interface IPlanCrawler {
 
 	public function crawlFirstAndPlan($url, $urltpl, &$itemExp, &$pagingExp);
-	public function crawlPlan(&$exp);
+	public function crawlPlan(&$plan, &$exp);
 }
 ?>
