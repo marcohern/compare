@@ -42,8 +42,10 @@ class PlanCrawler extends PageCrawler implements IPlanCrawler {
 
 	public function crawlPlan(&$plan, &$exp) {
 		$this->setRppTotal($plan->rpp, $plan->total);
+		$this->logStart("Crawling Plan, expecting ".$plan->expected." records in page ".$plan->page.", offset ".$plan->offset);
 		$this->setPage($plan->page);
 		$items = $this->crawl($plan->url, $exp);
+		$this->logEnd();
 		return $items;
 	}
 }
