@@ -13,7 +13,6 @@ class KtronixVgPs4Executor extends Executor {
 
 	protected function initColumns() {
 		$columns = new StandardColumnContainer();
-		$columns->addSimple('id');
 		$columns->addName('code',[
 			'/^\s*Videojuego (PS4 )?/i',
 			'/Edition PS4$/',
@@ -29,8 +28,6 @@ class KtronixVgPs4Executor extends Executor {
 			'/thief.s/i' => "Thief's",
 			'/Tortugas Ninja in/i' => "Teenage Mutant Ninja Turtles: Mutants in"
 		], ' ps4');
-		$columns->addSimple('price');
-		$columns->addSimple('brand');
 		$columns->addEscape('category');
 		$columns->addEscape('url');
 

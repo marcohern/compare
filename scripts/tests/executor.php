@@ -13,7 +13,7 @@ $logger = new CmdLogger();
 $cmps = new CampaignsTable($db);
 
 
-$campaign = $cmps->first(['code' => 'EXT-PS4-GAMES']);
+$campaign = $cmps->first(['code' => 'FLB-PS4-GAMES']);
 
 $class = $campaign->executor;
 inc("/src/executors/$class.php");

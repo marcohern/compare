@@ -32,6 +32,7 @@ class PageStateCrawler extends ProcesorCrawler implements IPageStateCrawler {
 	public function getOffset(){ return $this->offset; }
 
 	public function setRppTotal($rpp,  $total) {
+		$this->log("$total records, $rpp records per page.");
 		$this->rpp = $rpp;
 		$this->total = $total;
 		$this->pages = ceil($total/$rpp);

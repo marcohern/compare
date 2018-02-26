@@ -1,9 +1,9 @@
 <?php
 
 interface IJsonExplorer {
-	public function explore();
-	public function setRoot($path);
-	public function single($path);
+	public function explore(&$json);
+	public function root(&$json, $path);
+	public function single(&$json, $path);
 }
 
 ?>

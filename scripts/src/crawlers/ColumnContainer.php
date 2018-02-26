@@ -9,7 +9,7 @@ inc('/src/crawlers/Column.php');
  */
 class ColumnContainer {
 
-	private $columns;//array of columns
+	private $columns = [];//array of columns
 
 
 	/**
