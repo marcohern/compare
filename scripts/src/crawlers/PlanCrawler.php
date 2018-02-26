@@ -13,7 +13,7 @@ class PlanCrawler extends PageCrawler implements IPlanCrawler {
 		$this->db = $db;
 	}
 
-	public function crawlFirstAndPlan($url, $urltpl, &$itemExp, &$pagingExp) {
+	public function crawlFirstAndPlan($url, $urltpl, &$itemExp, &$pagingExp, $campaign_id) {
 		$items = $this->crawlFirst($url, $itemExp, $pagingExp);
 		$this->logStart("Creating plan for $url");
 		$n = $this->getPages();
@@ -31,6 +31,7 @@ class PlanCrawler extends PageCrawler implements IPlanCrawler {
 			$plan->expected = $this->getPageItemCount();
 			$plan->order    = rand(100000,999999);
 			$plan->status   = 'PENDING';
+			$plan->campaign_id = $campaign_id;
 			$plan->created  = new DateTime("now");
 			$tb->create($plan);
 		}

@@ -13,9 +13,10 @@ CREATE TABLE crawlplan(
 	expected INT           NOT NULL DEFAULT 0,
 	acquired INT           NOT NULL DEFAULT 0,
 	`order`  INT           NOT NULL DEFAULT 0,
+	campaign_id INT        NOT NULL,
 	created  DATETIME      NOT NULL,
 	updated  DATETIME          NULL
 );
 
-CREATE INDEX ix_crawlplan_order ON crawlplan(`order` ASC);
+CREATE INDEX ix_crawlplan_campaign_order ON crawlplan(campaign_id ASC, `order` ASC);
 

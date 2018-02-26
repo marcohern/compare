@@ -10,13 +10,13 @@ INSERT INTO campaigns(id, store_id, name, code, category, url, urltpl, executor,
 (2, 2, 'Alkosto Videojuegos PS4', 'ALK-PS4-GAMES', 'PS4-GAMES'
 	, 'http://www.alkosto.com/videojuegos/play-station-ps3-ps4-psvita-move/videojuegos-playstation/juegos-playstation-4'
 	, 'http://www.alkosto.com/videojuegos/play-station-ps3-ps4-psvita-move/videojuegos-playstation/juegos-playstation-4?p=[p1]'
-	, 'AlkostoVgPs4Executor', NOW(), NULL),
+	, 'KtronixVgPs4Executor', NOW(), NULL),
 
 -- ALKOMPRAR
 (3, 3, 'Alkosto Videojuegos PS4', 'AKO-PS4-GAMES', 'PS4-GAMES'
 	, 'http://www.alkomprar.com/videojuegos/play-station-ps3-ps4-psvita-move/videojuegos-playstation/juegos-playstation-4'
 	, 'http://www.alkomprar.com/videojuegos/play-station-ps3-ps4-psvita-move/videojuegos-playstation/juegos-playstation-4?p=[p1]'
-	, 'AlkomprarVgPs4Executor', NOW(), NULL),
+	, 'KtronixVgPs4Executor', NOW(), NULL),
 
 -- FALABELLA
 (4, 4, 'Falabella Videojuegos PS4', 'FLB-PS4-GAMES', 'PS4-GAMES'
