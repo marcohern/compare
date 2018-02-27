@@ -8,7 +8,7 @@ inc('/src/logging/CmdLogger.php');
 inc('/src/programs/IProgram.php');
 
 abstract class Program implements IProgram {
-	private $logger;
+	protected $logger;
 
 	protected $db;
 	protected $campaigns;
