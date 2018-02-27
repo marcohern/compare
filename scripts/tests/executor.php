@@ -12,7 +12,6 @@ $db->connect();
 $logger = new CmdLogger();
 $cmps = new CampaignsTable($db);
 
-
 $campaign = $cmps->first(['code' => 'FLB-PS4-GAMES']);
 
 $class = $campaign->executor;

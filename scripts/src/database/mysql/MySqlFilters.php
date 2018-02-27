@@ -11,7 +11,18 @@ class MySqlFilters extends MySqlColumnName implements ISqlFilters {
 		$sql = SQL_STR_EMPTY;
 		foreach($filters as $k => $v) {
 			$sql .= ($i===0) ? SQL_STR_EMPTY : SQL_AND;
-			$sql .= $this->getColumnName($k).' = '.$this->getLiteral($v);
+			$op = ' = ';
+			$key = $k;
+			$value = $v;
+			if (is_string($k) && is_array($v)) {
+				$op = ' '.$v[0].' ';
+				$value = $v[1];
+			} else if (is_int($k) && is_array($v)) {
+				$key   = $v[0];
+				$op    = ' '.$v[1].' ';
+				$value = $v[2];
+			}
+			$sql .= $this->getColumnName($key).$op.$this->getLiteral($value);
 			$i++;
 		}
 		return $sql;

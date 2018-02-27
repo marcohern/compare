@@ -2,9 +2,9 @@
 
 inc('/src/executors/Executor.php');
 inc('/src/executors/ExecutorParams.php');
-inc('/src/crawlers/JsonCrawler.php');
-inc("/src/crawlers/StandardColumnContainer.php");
+inc('/src/crawlers/FalabellaProductsJsonCrawler.php');
 inc('/src/jsonexplorers/FalabellaProductsJsonExplorer.php');
+inc("/src/crawlers/StandardColumnContainer.php");
 
 class FalabellaVgPs4Executor extends Executor {
 	protected function initParams(ExecutorParams &$params) {
@@ -19,7 +19,7 @@ class FalabellaVgPs4Executor extends Executor {
 	}
 
 	protected function initCrawler(IDatabase $db, Logger $logger, ExecutorParams $params) {
-		$crawler = new JsonCrawler(
+		$crawler = new FalabellaProductsJsonCrawler(
 			$db,
 			$params->columns,
 			$logger

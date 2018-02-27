@@ -5,7 +5,7 @@ inc("/src/exceptions/DatabaseNotFoundException.php");
 
 class Table {
 
-	private $db;
+	protected $db;
 
 	protected $table;
 	protected $idkey;
@@ -85,6 +85,15 @@ class Table {
 		} else {
 			return $this->create($record);
 		}
+	}
+
+	public function deleteOld() {
+		$someTimeAgo = new DateTime("now");
+		$period = new DateInterval("P30D");
+		$someTimeAgo->sub($period);
+		return $this->db->delete($this->table,[ 
+			['created', '<', $someTimeAgo]
+		]);
 	}
 }
 ?>

@@ -10,6 +10,7 @@ CREATE TABLE campaigns (
 	code       VARCHAR(32)  NOT NULL UNIQUE,
 	category   VARCHAR(32)  NOT NULL,
 	executor   VARCHAR(128) NOT NULL,
+	`table`    VARCHAR(32)  NOT NULL,
 	created DATETIME        NOT NULL,
 	updated DATETIME            NULL
 );

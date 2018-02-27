@@ -11,6 +11,7 @@ CREATE TABLE prd_falabella(
 	_signature      CHAR(32)      NOT NULL,
 	_title          VARCHAR(128)  NOT NULL,
 	_name           VARCHAR(128)  NOT NULL,
+	
 	productId       VARCHAR(32)   NOT NULL,
 	code            VARCHAR(128)  NOT NULL,
 	url             VARCHAR(255)  NOT NULL,

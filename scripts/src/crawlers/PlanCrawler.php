@@ -18,7 +18,7 @@ class PlanCrawler extends PageCrawler implements IPlanCrawler {
 		$this->logStart("Creating plan for $url");
 		$n = $this->getPages();
 		$tb = new CrawlPlanTable($this->db);
-		$this->log("$n records");
+		$this->log("$n pages");
 		for ($i=1; $i<$n; $i++) {
 			$this->setPage($i);
 			$url = $this->getPageUrl($urltpl);
