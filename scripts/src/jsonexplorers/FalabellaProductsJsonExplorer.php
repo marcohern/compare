@@ -44,12 +44,15 @@ class FalabellaProductsJsonExplorer extends JsonExplorer {
 
 	private $rpp;
 	private $total;
+	private $navState;
 	public function getRpp() { return $this->rpp; }
 	public function getTotal() { return $this->total; }
+	public function getNavState() { return $this->navState; }
 
 	public function explore(&$json) {
 		$this->rpp = $json->resultsPerPage;
 		$this->total = $json->resultsTotal;
+		$this->navState = $json->selectedRefinements->clearAllUrl;
 
 		$columns = new StandardColumnContainer();
 		$columns->addName('code', self::$removeName, self::$replaceName, ' ps4');

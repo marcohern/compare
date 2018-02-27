@@ -7,10 +7,12 @@ class Crawler implements ICrawler {
 
 	private $charset;
 	protected $logger;
+	private $context;
 
 	public function __construct(Logger $logger = null) {
 		$this->charset = 'UTF-8';
 		$this->logger = $logger;
+		$this->context = null;
 	}
 
 	protected function log($message) {
@@ -39,8 +41,13 @@ class Crawler implements ICrawler {
 		return $items;
 	}
 
+
+	public function setContext($context) {
+		$this->context = $context;
+	}
+
 	public function retrieveContent(&$url) {
-		return mb_convert_encoding(file_get_contents($url),$this->charset);
+		return mb_convert_encoding(file_get_contents($url, false, $this->context),$this->charset);
 	}
 
 	public function extractData(&$content, &$exp) {

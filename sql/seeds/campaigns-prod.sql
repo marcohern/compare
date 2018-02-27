@@ -1,4 +1,6 @@
 
+TRUNCATE TABLE campaigns;
+
 INSERT INTO campaigns(id, store_id, name, code, category, url, urltpl, executor, created, updated) VALUES
 -- KTRONIX
 (1, 1, 'K-Tronix Videojuegos PS4', 'KTR-PS4-GAMES', 'PS4-GAMES'
