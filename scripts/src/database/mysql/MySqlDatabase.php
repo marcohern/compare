@@ -53,10 +53,12 @@ class MySqlDatabase implements IDatabase {
 		$sql = $this->sqlb->select($table, $column, $filters, $orderby);
 		$rows = [];
 		$r = $this->mi->query($sql);
-		if ($r) while ($item = $r->fetch_assoc()) {
-			$rows[] = (object)$item;
+		if ($r) {
+			while ($item = $r->fetch_assoc()) {
+				$rows[] = (object)$item;
+			}
+			$r->close();
 		}
-		$r->close();
 		return $rows;
 	}
 

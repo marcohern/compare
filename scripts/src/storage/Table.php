@@ -64,7 +64,7 @@ class Table {
 	}
 
 	public function create(&$record) {
-		$record->created = new DateTime("now");
+		//$record->created = new DateTime("now");
 		$arr = get_object_vars($record);
 		$result = $this->db->insert($this->table, $arr);
 		if ($result->id!=0) {

@@ -19,7 +19,6 @@ class CrawlProgram extends Program {
 
 		$campaign = $this->campaigns->first(['code' => $code]);
 
-
 		$class = $campaign->executor;
 		inc("/src/executors/$class.php");
 		$this->log($code);

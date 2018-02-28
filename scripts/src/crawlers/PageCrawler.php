@@ -5,7 +5,7 @@ inc("/src/crawlers/IPageCrawler.php");
 inc("/src/crawlers/ColumnContainer.php");
 inc("/src/logging/Logger.php");
 
-class PageCrawler extends UrlTemplateCrawler implements IPageCrawler {
+class PageCrawler extends UrlTemplateCrawler implements IPageCrawler { 
 
 	public function __construct(ColumnContainer $cc, Logger $logger = null) {
 		parent::__construct($cc, $logger);
@@ -13,6 +13,7 @@ class PageCrawler extends UrlTemplateCrawler implements IPageCrawler {
 
 	public function crawlFirst($url, &$itemExp, &$pagingExp) {//<1
 		$items = [];
+		$paging = null;
 		$this->logStart("Crawling First $url");
 		{
 			$content = $this->retrieveContent($url);
@@ -31,6 +32,7 @@ class PageCrawler extends UrlTemplateCrawler implements IPageCrawler {
 				$items = $this->extractData($content, $itemExp);
 			}
 			$this->logEnd();
+			$this->processValues($url, $items);
 		}
 		$this->logEnd();
 		return $items;
