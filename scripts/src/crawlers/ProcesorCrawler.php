@@ -17,14 +17,14 @@ class ProcesorCrawler extends Crawler {
 		$this->logStart("Complete $url");
 		{
 			$items = parent::crawl($url, $exp);
-			$this->logStart("Processing $url");
-			{
-				foreach ($items as $r) $this->cc->processValues($r);
-			}
-			$this->logEnd();
+			$this->processValues($url, $items);
 		}
 		$this->logEnd();
 		return $items;
+	}
+
+	public function processValues($url, &$items) {
+		foreach ($items as $r) $this->cc->processValues($r);
 	}
 }
 
