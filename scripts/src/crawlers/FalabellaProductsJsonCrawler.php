@@ -32,7 +32,7 @@ class FalabellaProductsJsonCrawler extends JsonCrawler {
 	}
 
 	public function crawlFirst($url, &$itemExp, &$pagingExp) {
-		$this->logStart("Crawling $url");
+		$this->logStart("Crawling JSON $url");
 		$result = parent::crawl($url, $itemExp);
 		$json = json_decode($result[0]->json);
 		$items = $this->jsonExplorer->explore($json->state->searchItemList);
