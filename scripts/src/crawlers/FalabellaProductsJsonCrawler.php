@@ -32,36 +32,30 @@ class FalabellaProductsJsonCrawler extends JsonCrawler {
 	}
 
 	public function crawlFirst($url, &$itemExp, &$pagingExp) {
+		$this->logStart("Crawling $url");
 		$result = parent::crawl($url, $itemExp);
 		$json = json_decode($result[0]->json);
 		$items = $this->jsonExplorer->explore($json->state->searchItemList);
-		$this->log("crawlFirst done!");
-		$this->log(count($items)." record!");
 		$this->setRppTotal(
 			$this->jsonExplorer->getRpp(),
 			$this->jsonExplorer->getTotal()
 		);
+		$this->logEnd();
+		$n = count($items);
+		$this->log("Captured $n item(s)");
 		return $items;
 	}
 
 	public function crawlPlan(&$plan, &$exp) {
-		$this->logStart("Complete {$plan->url}");
-		
 		$this->logStart("Crawling {$plan->url}");
 		$context = stream_context_create(self::$opts);
 		$this->setContext($context);
 		$result = $this->retrieveContent($plan->url);
-		$this->logEnd();
-
-		$this->logStart("Exploring {$plan->url}");
 		$json = json_decode($result);
 		$items = $this->jsonExplorer->explore($json->state);
 		$this->logEnd();
-
-		$this->logEnd();
-
-		$this->log("crawlPlan done!");
-		$this->log(count($items)." record!");
+		$n = count($items);
+		$this->log("Captured $n item(s)");
 		return $items;
 	}
 }

@@ -11,30 +11,21 @@ class PageCrawler extends UrlTemplateCrawler implements IPageCrawler {
 		parent::__construct($cc, $logger);
 	}
 
-	public function crawlFirst($url, &$itemExp, &$pagingExp) {//<1
+	public function crawlFirst($url, &$itemExp, &$pagingExp) {
+		$this->logStart("Crawling $url");
 		$items = [];
 		$paging = null;
-		$this->logStart("Crawling First $url");
-		{
-			$content = $this->retrieveContent($url);
-			$this->logStart("Getting Paging $url");
-			{
-				$paging = $this->extractData($content, $pagingExp);
-			}
-			$this->logEnd();
+		$content = $this->retrieveContent($url);
+		$paging = $this->extractData($content, $pagingExp);
 
-			if (count($paging) > 0) {
-				$this->setRppTotal($paging[0]->rpp, $paging[0]->total);
-				$this->log("Planing for ".$paging[0]->total." records, with ".$paging[0]->rpp." records per page");
-			}
-			$this->logStart("Getting Items $url");
-			{
-				$items = $this->extractData($content, $itemExp);
-			}
-			$this->logEnd();
-			$this->processValues($url, $items);
+		if (count($paging) > 0) {
+			$this->setRppTotal($paging[0]->rpp, $paging[0]->total);
 		}
+		$items = $this->extractData($content, $itemExp);
+		$this->processValues($url, $items);
 		$this->logEnd();
+		$n = count($items);
+		$this->log("Captured $n item(s)");
 		return $items;
 	}
 

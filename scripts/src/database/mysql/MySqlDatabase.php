@@ -76,7 +76,7 @@ class MySqlDatabase implements IDatabase {
 				return $result;
 			}
 		}
-		throw new DatabaseException("INSERT ERROR: ".$this->mi->error);
+		throw new DatabaseException("INSERT ERROR: ".$this->mi->error." $sql");
 	}
 
 	public function update($table, array &$record, array $filters = null) {
@@ -86,7 +86,7 @@ class MySqlDatabase implements IDatabase {
 		if ($r) {
 			return $this->mi->affected_rows;
 		}
-		throw new DatabaseException("UPDATE ERROR: ".$this->mi->error);
+		throw new DatabaseException("UPDATE ERROR: ".$this->mi->error." $sql");
 	}
 
 	public function delete($table, array $filters = null) {
@@ -96,7 +96,7 @@ class MySqlDatabase implements IDatabase {
 		if ($r) {
 			return $this->mi->affected_rows;
 		}
-		throw new DatabaseException("DELETE ERROR: ".$this->mi->error);
+		throw new DatabaseException("DELETE ERROR: ".$this->mi->error." $sql");
 
 	}
 }

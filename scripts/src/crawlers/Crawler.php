@@ -38,6 +38,8 @@ class Crawler implements ICrawler {
 		$content = $this->retrieveContent($url);
 		$items = $this->extractData($content, $exp);
 		$this->logEnd();
+		$n = count($items);
+		$this->log("Captured $n item(s)");
 		return $items;
 	}
 
