@@ -3,51 +3,26 @@
 
 require_once("../src/compare.php");
 
-inc("/src/crawlers/PlanCrawler.php");
+inc("/src/crawlers/Crawler.php");
 inc("/src/logging/DatabaseLogger.php");
 inc("/src/logging/CmdLogger.php");
 inc("/src/database/mysql/MySqlDatabase.php");
 inc("/src/crawlers/StandardColumnContainer.php");
 
-$columns = new StandardColumnContainer();
-$columns->addName('code',[
-	'/^\s*Videojuego (PS4 )?/i',
-	'/Edition PS4$/',
-	'/PS4$/',
-	'/â/',
-	'/ Estandard/i',
-	'/ Estandar/i',
-],[
-	'/WW II/i' => "WWII",
-	'/Edicion Legado/i' => "Legacy Edition",
-	'/Ratchet y Clank/i' => "Ratchet & Clank",
-	'/\W+Remasterizado/i' => " Remastered",
-	'/thief.s/i' => "Thief's",
-	'/Tortugas Ninja in/i' => "Teenage Mutant Ninja Turtles: Mutants in"
-], ' ps4');
-$columns->addEscape('category');
-$columns->addEscape('url');
 
 $db = new MySqlDatabase();
 $db->connect();
 
 $logger = new CmdLogger();
 
-$cr = new PlanCrawler($db, $columns, $logger);
+$cr = new Crawler($logger);
 
-$url = "http://www.ktronix.com/videojuegos/play-station-ps3-ps4-psvita-move/videojuegos-playstation/juegos-playstation-4";
- 		$urltpl = $url."?p=[p1]";
-$file = ROOT."/html/exito_ps4_games.html";
+$url = "http://www.homecenter.com.co/homecenter-co/category/cat930005/Videojuegos/N-1yv6d84";
+ $urltpl = $url."?No=[offset]&Nrpp=[rpp]";
 
-$exp = read("/src/expresions/ktronix_product_list.php");
-$pageExp = '/'
-	.'Productos: 1-(?<rpp>\d{1,4}) de (?<total>\d{1,4})'
-.'/';
+$exp = read("/src/expresions/homecenter_product_list.php");
 
-
-//$cr->crawlFirstAndPlan($url, $urltpl, $exp, $pageExp);
-
-$cr->crawlPlan($exp);
-
+$items = $cr->crawl($url, $exp);
+var_dump($items);
 $db->close();
 ?>
