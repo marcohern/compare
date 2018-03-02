@@ -118,7 +118,7 @@ abstract class Executor implements IExecutor {
 			'status'      => 'PENDING',
 		]);
 		$this->tend = microtime();
-		$this->import->iduration = $this->tend - $this->tstart;
+		$this->import->iduration += $this->tend - $this->tstart;
 		$this->import->updated   = new DateTime("now");
 		if (!$nextPlan) {
 			$this->import->status = 'INACTIVE'; 

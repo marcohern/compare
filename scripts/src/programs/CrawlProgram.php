@@ -13,18 +13,21 @@ class CrawlProgram extends Program {
 	];
 
 	protected function execute() {
-		$n = count($this->campaignCodes);
-		$rand = rand(0,$n-1);
-		$code = $this->campaignCodes[$rand];
+		$this->logStart("Total Run Time");
+		foreach ($this->campaignCodes as $code) {
+			$this->log("Running $code");
+			$this->logStart("Ran $code");
+			$campaign = $this->campaigns->first(['code' => $code]);
 
-		$campaign = $this->campaigns->first(['code' => $code]);
-
-		$class = $campaign->executor;
-		inc("/src/executors/$class.php");
-		$this->log($code);
-		$exe = new $class($this->db, $this->logger);
-		$exe->init($campaign);
-		$exe->run();
+			$class = $campaign->executor;
+			inc("/src/executors/$class.php");
+			$this->log($code);
+			$exe = new $class($this->db, $this->logger);
+			$exe->init($campaign);
+			$exe->run();
+			$this->logEnd();
+		}
+		$this->logEnd();
 	}
 }
 

@@ -41,6 +41,14 @@ abstract class Program implements IProgram {
 		$this->logger->log($message, get_class($this));
 	}
 
+	public function logStart($message) {
+		$this->logger->start($message, get_class($this));
+	}
+
+	public function logEnd() {
+		$this->logger->end();
+	}
+
 	abstract protected function execute();
 }
 
