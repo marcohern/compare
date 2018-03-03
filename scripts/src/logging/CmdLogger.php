@@ -9,8 +9,8 @@ class CmdLogger extends Logger{
 	}
 
 	private function _output(&$entry) {
-		echo $entry->category.' '
-		.(($entry->duration>0) ? $entry->duration.'s' : '')
+		echo $entry->category.
+		.(($entry->duration>0) ? ' '.$entry->duration.'s' : '')
 		.' '.$entry->message."\n";
 	}
 

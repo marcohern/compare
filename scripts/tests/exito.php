@@ -1,5 +1,8 @@
 <?php
 
+require_once('../src/compare.php');
+inc('/src/http/HttpHeader.php');
+
 $url = 'https://www.exito.com/Tecnologia-Consolas_y_video_juegos-PlayStation_4-Juegos_PS4/_/N-2b5q';
 $charset = 'UTF-8';
 
@@ -19,5 +22,9 @@ $context = stream_context_create($ops);
 
 $content = mb_convert_encoding(file_get_contents($url, false, $context),$charset);
 var_dump($content);
-var_dump($http_response_header);
+
+$h = new HttpHeader();
+$h->readFromArray($http_response_header);
+//$h->dump();
+echo $h;
 ?>

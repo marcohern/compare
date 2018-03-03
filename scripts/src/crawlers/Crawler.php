@@ -43,6 +43,15 @@ class Crawler implements ICrawler {
 		return $items;
 	}
 
+	public function crawlContent($content, &$exp) {
+		$this->logStart("Crawling Content");
+		$items = $this->extractData($content, $exp);
+		$this->logEnd();
+		$n = count($items);
+		$this->log("Captured $n item(s)");
+		return $items;
+	}
+
 
 	public function setContext($context) {
 		$this->context = $context;

@@ -6,8 +6,10 @@ class HttpHeader {
 	public $acceptLanguage = null;
 	public $upgradeInsecureRequests = null;
 	public $userAgent = null;
-	public $cookies = null;
-	public $setCookie = null;
+	public $cookie = null;
+
+	private $setCookie = [];
+	private $requestCookies = [];
 
 	public function toString() {
 		$header = "";
@@ -16,7 +18,7 @@ class HttpHeader {
 		if(!empty($this->upgradeInsecureRequests)) $header.= "Upgrade-Insecure-Requests: {$this->upgradeInsecureRequests}\r\n";
 		if(!empty($this->acceptLanguage)) $header.= "Accept-Language: {$this->acceptLanguage}\r\n";
 		if(!empty($this->userAgent)) $header.= "User-Agent: {$this->userAgent}\r\n";
-		if(!empty($this->cookies)) $header.= "Cookie: {$this->cookies}\r\n";
+		if(!empty($this->cookie)) $header.= "Cookie: {$this->cookie}\r\n";
 		return $header; 
 	}
 
@@ -39,6 +41,10 @@ class HttpHeader {
 				case 'User-Agent':
 					$this->userAgent = $v;
 					break;
+				case 'Cookie':
+					$this->cookie = $v;
+					$this->requestCookies = $this->extractCookies($v);
+					break;
 			}
 		}
 	}
@@ -56,8 +62,10 @@ class HttpHeader {
 		return $c;
 	}
 
-	public function addCookies() {
-
+	public function exportCookie($url) {
+		$filename = md5($url);
+		$content = serialize($this->cookie);
+		file_put_contents(ROOT."/tmp/cookies/$filename.txt", $content);
 	}
 
 	public function captureSetCookie(array &$response) {
@@ -66,11 +74,23 @@ class HttpHeader {
 			if (is_string($v)) {
 				if (preg_match("/^Set-Cookie:\s*(?<value>.*)/i", $v, $match)) {
 					if (!empty($cookie)) $cookie.=';';
-					$arr .= $match['value'];
+					$cookie .= $match['value'];
 				}
 			}
 		}
-		$this->setCookie = $cookie;
+		$this->setCookie = $this->extractCookies($cookie);
+	}
+
+	public function mergeCookies() {
+		$this->requestCookies = array_merge($this->requestCookies, $this->setCookie);
+	}
+
+	public function renderCookie() {
+		$this->cookie = '';
+		foreach ($this->requestCookies as $k => $v) {
+			if (!empty($this->cookie)) $this->cookie .= '; ';
+			$this->cookie .= "$k=$v";
+		}
 	}
 }
 
