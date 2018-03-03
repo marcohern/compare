@@ -3,7 +3,7 @@ require_once('../src/compare.php');
 
 inc('/src/http/HttpHeader.php');
 inc('/src/crawlers/Crawler.php');
-inc('/src/util/Stringer.php');
+inc('/src/util/Urler.php');
 
 $h = new HttpHeader();
 $h->readFromConfig();
@@ -17,9 +17,12 @@ $urls = [
 	'https://www.exito.com/Tecnologia-Consolas_y_video_juegos-PlayStation_4-Juegos_PS4/_/N-2b5q?foo=bar&a=b#abc',
 	'https://www.falabella.com.co/rest/model/falabella/rest/browse/BrowseActor/get-product-record-list?%7B%22currentPage%22%3A4%2C%22navState%22%3A%22%2Fcategory%2Fcat3020960%2FPS4%22%7D',
 	'/',
+	'',
+	'abc',
+	'http://www.google.com'
 ];
 foreach($urls as $url) {
-	$r = Stringer::explodeUrl($url);
-	var_dump($r);	
+	$r = Urler::explode($url);
+	printf("%5s %20s %s %s %s\n", $r->protocol, $r->host, $r->path, $r->query, $r->anchor);
 } 
 ?>
