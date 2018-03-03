@@ -7,6 +7,7 @@ class HttpHeader {
 	public $upgradeInsecureRequests = null;
 	public $userAgent = null;
 	public $cookies = null;
+	public $setCookie = null;
 
 	public function toString() {
 		$header = "";
@@ -42,17 +43,34 @@ class HttpHeader {
 		}
 	}
 
-	public function setCookies(array &$response) {
+	public function extractCookies($cookies) {
+		$c = [];
+		if (preg_match_all('/(?<id>\w+)=(?<val>[^;]*)(;\s*|$)/', $cookies, $matches)) {
+			$n = count($matches[0]);
+			for ($i=0; $i<$n; $i++) {
+				$id  = $matches['id'][$i];
+				$val = $matches['val'][$i];
+				$c[$id] = $val;
+			}
+		}
+		return $c;
+	}
+
+	public function addCookies() {
+
+	}
+
+	public function captureSetCookie(array &$response) {
 		$cookie = '';
 		foreach ($response as $v) {
 			if (is_string($v)) {
 				if (preg_match("/^Set-Cookie:\s*(?<value>.*)/i", $v, $match)) {
 					if (!empty($cookie)) $cookie.=';';
-					$cookie .= $match['value'];
+					$arr .= $match['value'];
 				}
 			}
 		}
-		$this->cookies = $cookie;
+		$this->setCookie = $cookie;
 	}
 }
 
