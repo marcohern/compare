@@ -4,8 +4,17 @@ inc("/src/http/HttpWeighted.php");
 inc("/src/http/HttpVar.php");
 
 class HttpHeaderItem {
-	private static $vars = ['cookie','set-cookie'];
-	private static $weighted = ['accept','accept-language','accept-encoding'];
+	private static $vars = [
+		'cookie',
+		'set-cookie'
+	];
+	
+	private static $weighted = [
+		'accept',
+		'accept-language',
+		'accept-encoding'
+	];
+
 	private static $exp = '/(\s*(?<name>[^:]+):)?(\s*(?<value>.+(\r\n)?))/';
 
 	public $name;
@@ -59,7 +68,7 @@ class HttpHeaderItem {
 	public static function join(array $list) {
 		$s = '';
 		foreach ($list as $v) {
-			if (!empty($s)) $s .= '; ';
+			if (!empty($s)) $s .= "\r\n";
 			$s .= $v;
 		}
 		return $s;
