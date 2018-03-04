@@ -19,10 +19,11 @@ $urls = [
 	'/',
 	'',
 	'abc',
-	'http://www.google.com'
+	'http://www.google.com',
+	'http://marcohern.com/contact'
 ];
 foreach($urls as $url) {
 	$r = Urler::explode($url);
-	printf("%5s %20s %s %s %s\n", $r->protocol, $r->host, $r->path, $r->query, $r->anchor);
+	printf("%5s %10s %20s\n", $r->protocol, $r->name, $r->domain);
 } 
 ?>

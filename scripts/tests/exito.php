@@ -25,6 +25,6 @@ var_dump($content);
 
 $h = new HttpHeader();
 $h->readFromArray($http_response_header);
-//$h->dump();
+$h->dump();
 echo $h;
 ?>

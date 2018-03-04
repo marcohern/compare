@@ -5,6 +5,7 @@ class Urler {
 	public static $urlexp = '/^(((?<protocol>[^:]+):)?\/\/(?<host>[^\/]+))?((?<path>\/?[^\?]*\/?)(\?(?<query>[^#]*))?(#(?<anchor>.*))?)?$/';
 	public static $queryexp = '/&?((?<key>[^=]+)=)?(?<value>[^&]+)/';
 	public static $pathexp = '/(\/?(?<folder>[^\/]+))/';
+	public static $hostexp = '/((?<name>[^\.]*)\.)?(?<domain>.+\..+)/';
 
 	protected static function explodeQuery($query) {
 		$r = preg_match_all(self::$queryexp, $query, $matches);
@@ -28,6 +29,15 @@ class Urler {
 		return $matches['folder'];
 	}
 
+	protected static function explodeHost($host) {
+		$r = preg_match(self::$hostexp, $host, $matches);
+		if (!$r) return null;
+		return (object) [
+			'name' => $matches['name'],
+			'domain' => $matches['domain'],
+		];
+	}
+
 	public static function explode($url) {
 		$r = preg_match(self::$urlexp, $url, $match);
 		if (!$r) return null;
@@ -35,6 +45,13 @@ class Urler {
 		$result->url = $url;
 		$result->protocol   = array_key_exists('protocol', $match) ? $match['protocol'] : '';
 		$result->host       = array_key_exists('host', $match) ? $match['host'] : '';
+		$result->name = '';
+		$result->domain = '';
+		$hostparts = self::explodeHost($result->host);
+		if (!empty($hostparts)) {
+			$result->name = $hostparts->name;
+			$result->domain = $hostparts->domain;
+		}
 		$result->path       = array_key_exists('path', $match) ? $match['path'] : '';
 		$result->pathItems  = self::explodePath($result->path);
 		$result->query      = array_key_exists('query', $match) ? $match['query'] : '';

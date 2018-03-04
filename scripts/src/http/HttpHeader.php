@@ -3,21 +3,63 @@
 inc('/src/http/IHttpHeader.php');
 
 class HttpHeader implements IHttpHeader {
+
+	static private $hedexp = '/^((?<key>[^:]+):)?\s*(?<value>.*)$/';
+	static private $varexp = '/((?<key>[^=]+)=)?\s*(?<value>[^;]+);?/';
+	static private $grpexp = '/,?(?<group>[^,]+)/';
+
+	static private $variables = ['cookie','set-cookie'];
+	static private $groups = ['accept-language'];
 	private $keys = [];
 
 	public function readFromConfig() {
 		$this->keys = read('/src/config/http_headers.php');
 	}
 
+	protected function explodeValue(&$kkey, &$value) {
+		$result = [];
+		if (in_array($kkey, self::$variables)) {
+			$r = preg_match_all(self::$varexp, $value, $matches);
+			if (!$r) return '';
+			$n = count($matches[0]);
+
+			for ($i=0; $i<$n; $i++) {
+				$key   = $matches['key'][$i];
+				$value = $matches['value'][$i];
+				if (empty($key)) $result[] = $value;
+				else $result[$key] = $value;
+			}
+		} else if (in_array($kkey, self::$groups)) {
+			$r = preg_match_all(self::$grpexp, $value, $matches);
+			if (!$r) return '';
+			for ($i=0; $i<$n; $i++) {
+				$group = $matches['group'][$i];
+				$grpa = [];
+				$s = preg_match_all(self::$varexp, $group, $gm);
+				if (!$s) break;
+				$m = count($gm[0]);
+				for ($j=0; $j<$m; $j++) {
+					$key   = $matches['key'][$i];
+					$value = $matches['value'][$i];
+					if (empty($key)) $grpa[] = $value;
+					else $grpa[$key] = $value;
+				}
+				$result[] = $grpa;
+			}
+		} else {
+			return $value;
+		}
+		return $result;
+	} 
+
 	public function readFromArray(array &$arr) {
-		$exp = '/^((?<key>[^:]+):)?\s*(?<value>.*)$/';
 		foreach ($arr as $v) {
-			preg_match($exp, $v, $match);
-			var_dump($match);
+			preg_match(self::$hedexp, $v, $match);
 			if (empty($match['key'])) {
 				$this->keys[] = $match['value'];
 			} else {
-				$this->keys[$match['key']] = $match['value'];
+				$key = strtolower($match['key']);
+				$this->keys[$key] = $this->explodeValue($key, $match['value']);
 			}
 		} 
 	}
@@ -28,6 +70,10 @@ class HttpHeader implements IHttpHeader {
 		} else {
 			$this->keys[] = [$key => $value];
 		}
+	}
+
+	public function set($key, $value) {
+		$this->keys[$key] = $value;
 	}
 
 	public function get($key) {
@@ -58,7 +104,6 @@ class HttpHeader implements IHttpHeader {
 	}
 
 	protected function isVariableList($key) {
-		echo "isVariableList $key\n";
 		if (preg_match('/cookie/i',$key)) {
 			return true;
 		}
