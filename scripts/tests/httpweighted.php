@@ -16,4 +16,6 @@ var_dump($h);
 
 $x = $h->setCookie;
 var_dump($x);
+
+$y = $h->whatUp;
 ?>

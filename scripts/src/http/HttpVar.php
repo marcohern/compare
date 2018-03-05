@@ -28,7 +28,8 @@ class HttpVar {
 			$var = new HttpVar();
 			$var->name = $m['name'][$i];
 			$var->value = $m['value'][$i];
-			$result[] = $var;
+			if(empty($var->name)) $result[] = $var;
+			$result[$var->name] = $var;
 		}
 		return $result;
 	}

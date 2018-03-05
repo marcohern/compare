@@ -1,6 +1,7 @@
 <?php
 
 inc("/src/http/HttpHeaderItem.php");
+inc("/src/exceptions/HttpHeaderException.php");
 
 class HttpHeader {
 	private $items = [];
@@ -46,10 +47,25 @@ class HttpHeader {
 		return $r;
 	}
 
+	public function mergeVariables($key) {
+		$items = $this->query($key);
+		$result = [];
+		$n = count($items);
+		if ($n>0) {
+			$result = $items[0];
+			for ($i=1; $i<$n; $i++) {
+				$result->value = array_merge($result->value, $items[$i]->value);
+			}
+		}
+		return $result;
+	}
+
 	public function __get(string $name) {
 		$header = $this->toHeaderKey($name);
-		if (is_null($header)) return null;
+		if (empty($header)) throw new HttpHeaderException("property '$name' has no equivalent header key.");
 		$r = $this->query($header);
+		if (empty($r)) throw new HttpHeaderException("key '$header' ($name) not found.");
+		$r = $this->mergeVariables($header);
 		return $r;
 	}
 }
