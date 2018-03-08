@@ -19,7 +19,7 @@ class HttpVar {
 		return "{$this->name}={$this->value}";
 	}
 
-	public static function parse(string $source) {
+	public static function parse(string &$source) {
 		$result = [];
 		$r = preg_match_all(self::$exp, $source, $m);
 		if (!$r) return $result;
@@ -34,7 +34,7 @@ class HttpVar {
 		return $result;
 	}
 
-	public static function join(array $list) {
+	public static function join(array &$list) {
 		$s = '';
 		foreach ($list as $v) {
 			if (!empty($s)) $s .= '; ';

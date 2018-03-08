@@ -19,7 +19,7 @@ class HttpWeighted {
 		return "{$this->value};q={$this->q}";
 	}
 
-	public static function parse($source) {
+	public static function parse(string &$source) {
 		$result = [];
 		$r = preg_match_all(self::$exp, $source, $m);
 		if (!$r) return $result;
@@ -33,7 +33,7 @@ class HttpWeighted {
 		return $result;
 	}
 
-	public static function join(array $list) {
+	public static function join(array &$list) {
 		$s = '';
 		foreach ($list as $v) {
 			if (!empty($s)) $s .= ', ';
