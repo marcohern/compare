@@ -1,6 +1,7 @@
 <?php
 
 inc("/src/http/HttpHeaderItem.php");
+inc("/src/util/Stringer.php");
 inc("/src/exceptions/HttpHeaderException.php");
 
 class HttpHeader {
@@ -26,29 +27,7 @@ class HttpHeader {
 		return HttpHeaderItem::join($this->items);
 	}
 
-	private function toHeaderKey($name) {
-		$r = preg_match_all('/(?<p>(?<letter>[A-Z]?)(?<word>[^A-Z]+))/', $name, $m);
-		if (!$r) return null;
-		$n = count($m[0]);
-		$key = $m['p'][0];
-		for ($i=1; $i<$n; $i++) {
-			$key .= '-'.strtolower($m['letter'][$i]).$m['word'][$i];
-		}
-		return $key;
-	}
-
-	public function query($key) {
-		$r = [];
-		foreach ($this->items as $item) {
-			if ($item->name === $key) {
-				$r[] = $item;
-			}
-		}
-		return $r;
-	}
-
-	public function mergeVariables($key) {
-		$items = $this->query($key);
+	public function merge(array &$items) {
 		$result = [];
 		$n = count($items);
 		if ($n>0) {
@@ -60,12 +39,28 @@ class HttpHeader {
 		return $result;
 	}
 
+	public function query(string $key, $pop = false) {
+		$r = [];
+		$indexes = [];
+		foreach ($this->items as $i => $item) {
+			if ($item->name === $key) {
+				$r[] = $item;
+				if ($pop) $indexes[] = $i;
+			}
+		}
+		if ($pop) {
+			foreach ($indexes as $i) {
+				unset($this->items[$i]);
+			}
+		}
+		return $r;
+	}
+
 	public function __get(string $name) {
-		$header = $this->toHeaderKey($name);
+		$header = Stringer::toHeaderKey($name);
 		if (empty($header)) throw new HttpHeaderException("property '$name' has no equivalent header key.");
-		$r = $this->query($header);
-		if (empty($r)) throw new HttpHeaderException("key '$header' ($name) not found.");
-		$r = $this->mergeVariables($header);
+		$r = $this->merge($header);
+		if (!$r) return null;
 		return $r;
 	}
 }

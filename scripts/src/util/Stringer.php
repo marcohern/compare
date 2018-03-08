@@ -23,5 +23,16 @@ class Stringer {
 		}
 		return $value;
 	}
+
+	public static function toHeaderKey(string $name) {
+		$r = preg_match_all('/(?<p>(?<letter>[A-Z]?)(?<word>[^A-Z]+))/', $name, $m);
+		if (!$r) return null;
+		$n = count($m[0]);
+		$key = $m['p'][0];
+		for ($i=1; $i<$n; $i++) {
+			$key .= '-'.strtolower($m['letter'][$i]).$m['word'][$i];
+		}
+		return $key;
+	}
 }
 ?>

@@ -19,7 +19,7 @@ class HttpVar {
 		return "{$this->name}={$this->value}";
 	}
 
-	public static function parse($source) {
+	public static function parse(string $source) {
 		$result = [];
 		$r = preg_match_all(self::$exp, $source, $m);
 		if (!$r) return $result;
@@ -29,7 +29,7 @@ class HttpVar {
 			$var->name = $m['name'][$i];
 			$var->value = $m['value'][$i];
 			if(empty($var->name)) $result[] = $var;
-			$result[$var->name] = $var;
+			else $result[$var->name] = $var;
 		}
 		return $result;
 	}
@@ -41,6 +41,10 @@ class HttpVar {
 			$s .= $v;
 		}
 		return $s;
+	}
+
+	public static function merge(array &$vars1, array &$vars2) {
+		return array_merge($vars1, $vars2);
 	}
 }
 

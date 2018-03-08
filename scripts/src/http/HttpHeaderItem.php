@@ -15,7 +15,7 @@ class HttpHeaderItem {
 		'accept-encoding'
 	];
 
-	private static $exp = '/(\s*(?<name>[^:]+):)?(\s*(?<value>.+(\r\n)?))/';
+	private static $exp = '/(\s*(?<name>[^:]+):)?(\s*(?<value>[^\r\n]+))(\r\n)?/';
 
 	public $name;
 	public $value;
@@ -29,8 +29,9 @@ class HttpHeaderItem {
 		if (is_array($source)) {
 			$n = count($source);
 			if ($n > 0) {
-				if (is_a($source[0], 'HttpVar'))      return HttpVar::join($source);
-				if (is_a($source[0], 'HttpWeighted')) return HttpWeighted::join($source);
+				$key = array_keys($source)[0];
+				if (is_a($source[$key], 'HttpVar'))      return HttpVar::join($source);
+				if (is_a($source[$key], 'HttpWeighted')) return HttpWeighted::join($source);
 			}
 			return '';
 		}
@@ -71,6 +72,7 @@ class HttpHeaderItem {
 			if (!empty($s)) $s .= "\r\n";
 			$s .= $v;
 		}
+		$s .= "\r\n";
 		return $s;
 	}
 }

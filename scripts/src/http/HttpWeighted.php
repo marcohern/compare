@@ -28,7 +28,7 @@ class HttpWeighted {
 			$weight = new HttpWeighted();
 			$weight->value = $m['value'][$i];
 			$weight->q = (empty($m['q'][$i])) ? 1 : 0+$m['q'][$i];
-			$result[] = $weight;
+			$result[$weight->value] = $weight;
 		}
 		return $result;
 	}
